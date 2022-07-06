@@ -12,10 +12,7 @@ def home(request):
     return render(request, 'usuarioLogin/home.html')
 
 
-def registro(request):
-    data = {
-        'form': CustomUserCreationForm
-        }    
+def registro(request):           
     if request.method == 'POST':
         username = request.POST.get("username")
         last_name = request.POST.get("last_name", None)
@@ -42,16 +39,17 @@ def registro(request):
                 identification_number=identification_number, genero=genero)
             persona.save()
             messages.success(request, 'Usuario creado correctamente')
-            return redirect('/')
+            return redirect('/')            
         else:
-            msg="Las contraseñas no coinciden"         
+            msg="Las contraseñas no coinciden"      
         
     else:        
-        msg="No se pudo crear el usuario"
-    
-    return render(request, 'registration/registro.html', data,
+        msg="No se pudo crear el usuario" 
+        lista_genero = Persona.GENEROop  
+
+    return render(request, 'registration/registro.html',
     {
-        "msg":msg,
-        "lista_genero":persona.GENEROop
+    "msg":msg,
+    "lista_genero":lista_genero,
     })
 

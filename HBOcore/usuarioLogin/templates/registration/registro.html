@@ -25,10 +25,10 @@
                     <option value="2">Extranjero</option>
                     </select><br>   
                 Genero: <select name="genero" required>
-                    <option value="">Seleccion</option> 
-                    {% for val, descrip in lista_genero %}
-                    <option value="{{ val }}">{{ descrip }}</option>
-                    {% endfor %}                    
+                            <option value="">Seleccion</option> 
+                            {% for val, descrip in lista_genero %}
+                            <option value="{{ val }}">{{ descrip }}</option>
+                            {% endfor %}                    
                         </select><br>
                 Contraseña: <input type="password" name="password1" value=""required/><br>
                 Confirmar Contraseña: <input type="password" name="password2" value=""required /><br>
