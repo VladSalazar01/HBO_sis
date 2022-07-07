@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #agrgar apps
+    #mias
     'usuarioLogin',
+    #otras
+    'django_countries',
 
 ]
 
@@ -71,6 +74,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
+        
     },
 ]
 

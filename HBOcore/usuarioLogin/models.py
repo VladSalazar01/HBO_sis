@@ -1,10 +1,13 @@
+from django.utils.translation import gettext as _
 from django.db import models
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
+from usuarioLogin.snippets.country import COUNTRIES
 
 # Create your models here.
 
 class Persona(models.Model):
+    
     apellidos = models.CharField(max_length=50  , db_column='Apellidos', blank=True, null=True)  
     nombres = models.CharField(max_length=50, db_column='Nombres', blank=True, null=True) 
     celular = models.CharField(max_length=50, db_column='Celular', blank=True, null=True)  
@@ -15,8 +18,8 @@ class Persona(models.Model):
     identificacion = models.CharField(max_length=50, db_column='Identificacion',  blank=True, null=True)
     T_ID=   [('CC', 'Cedula de Ciudadania'),
              ('PS', 'Pasaporte'),]     
-    tipo_identificacion = models.CharField(db_column='Tipo de identificacion', blank=True, null=True, choices=T_ID, max_length=2)   
-    paisOrigen = CountryField()  
+    tipo_identificacion = models.CharField(db_column='Tipo de identificacion', blank=True, null=True, choices=T_ID, max_length=2)         
+    paisOrigen = CountryField()
     GENEROop=   [('M','Masculino'),
                 ('F','Femenino'), ]
     genero = models.CharField(db_column='Genero', max_length=1, blank=True, null=True, choices=GENEROop)    
@@ -56,3 +59,4 @@ class Historialclinico(models.Model):
         managed = True
         db_table = 'historialclinico'
         verbose_name_plural = 'Historiales clinicos'
+

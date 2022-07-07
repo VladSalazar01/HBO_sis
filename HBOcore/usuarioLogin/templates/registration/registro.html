@@ -1,5 +1,7 @@
 {% extends 'usuarioLogin/base.html' %}
 {% load static %}
+{% load countries %}
+{% get_countries as countries %}
 {% block cta %}
 
     <div class="row">
@@ -19,11 +21,11 @@
                 Direccion: <input type="textfield" name="direccion" value=""/><br>
                 Tipo de identificación: <input type="text" name="identification_type" value=""/><br>
                 Numero de identificación: <input type="text" name="identification_number" value=""/><br>
-                Nacionalidad: <select name="nacionalidad">
-                    <option value="">Seleccione</option>
-                    <option value="1">Ecuatoriano</option>
-                    <option value="2">Extranjero</option>
-                    </select><br>   
+                Nacionalidad:<select name="countries">
+                        {% for country in countries %}
+                        <option value="{{ country.code }}">{{ country.name }}</option>
+                        {% endfor %}
+                        </select> <br>
                 Genero: <select name="genero" required>
                             <option value="">Seleccion</option> 
                             {% for val, descrip in lista_genero %}
@@ -32,13 +34,7 @@
                         </select><br>
                 Contraseña: <input type="password" name="password1" value=""required/><br>
                 Confirmar Contraseña: <input type="password" name="password2" value=""required /><br>
-               
-
-
-
-
-
-                
+                               
                 <input type="submit" value="Confirmar" class="btn btn-light btn-lg action-button">
                 <a href="/" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
                 <br></br>
