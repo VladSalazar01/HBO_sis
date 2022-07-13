@@ -16,11 +16,17 @@
                 Apellidos: <input type="text" name="last_name" value=""required/><br>
                 Nombres: <input type="text" name="first_name" value=""required/><br>
                 Email: <input type="email" name="email" value=""required/><br>
-                Fecha de Nacimiento: <input type="date" name="FechaNacimiento" value=""/><br>
                 Celular : <input type="text" name="celular" value=""/><br>
                 Direccion: <textarea type="textfield" name="direccion" rows="4" cols="50" value=""></textarea><br>
-                Tipo de identificación: <input type="text" name="identification_type" value=""/><br>
-                Numero de identificación: <input type="text" name="identification_number" value=""/><br>
+                Fecha de Nacimiento: <input type="date" name="Fecha_Nacimiento" value=""/><br>
+                Numero de identificación: 
+                <input type="text" name="NumID" value=""/><br>             
+                Tipo de identificación: <select name="Tipo de identificacion" required>
+                    <option value="">Seleccione</option> 
+                    {% for val, descrip in TIDlist %}
+                    <option value="{{ val }}">{{ descrip }}</option>
+                    {% endfor %}                    
+                </select><br>               
                 Nacionalidad:<select name="countries">
                         {% for country in countries %}
                         <option value="{{ country.code }}">{{ country.name }}</option>
