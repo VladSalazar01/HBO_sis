@@ -8,10 +8,7 @@ from citasMed.models import Especialidadmedica
 
 class Persona(models.Model):
     
-    apellidos = models.CharField(max_length=50  , db_column='Apellidos', blank=True, null=True)  
-    nombres = models.CharField(max_length=50, db_column='Nombres', blank=True, null=True) 
-    celular = models.CharField(max_length=50, db_column='Celular', blank=True, null=True)  
-    correo = models.CharField(max_length=50, db_column='Correo', blank=True, null=True)  
+    celular = models.CharField(max_length=50, db_column='Celular', blank=True, null=True)      
     direccion = models.TextField(db_column='Direccion', blank=True, null=True)  
     Fecha_Nacimiento = models.DateField(db_column='Fecha_Nacimiento', blank=True, null=True) 
     identificacion = models.CharField(max_length=50, db_column='Identificacion',  blank=True, null=True)
