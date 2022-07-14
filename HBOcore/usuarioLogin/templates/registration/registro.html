@@ -20,14 +20,14 @@
                 Direccion: <textarea type="textfield" name="direccion" rows="4" cols="50" value=""></textarea><br>
                 Fecha de Nacimiento: <input type="date" name="Fecha_Nacimiento" value=""/><br>
                 Numero de identificación: 
-                <input type="text" name="NumID" value=""/><br>             
+                <input type="text" name="Identificacion" value=""/><br>             
                 Tipo de identificación: <select name="Tipo de identificacion" required>
-                    <option value="">Seleccione</option> 
-                    {% for val, descrip in TIDlist %}
-                    <option value="{{ val }}">{{ descrip }}</option>
-                    {% endfor %}                    
+                            <option value="">Seleccione</option> 
+                            {% for valu, descripc in TIDlist %}
+                            <option value="{{ valu }}">{{ descripc }}</option>
+                            {% endfor %}                    
                 </select><br>               
-                Nacionalidad:<select name="countries">
+                Nacionalidad:<select name="countries" values="Ecuador">
                         {% for country in countries %}
                         <option value="{{ country.code }}">{{ country.name }}</option>
                         {% endfor %}

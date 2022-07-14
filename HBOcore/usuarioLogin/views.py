@@ -12,7 +12,7 @@ def home(request):
     return render(request, 'usuarioLogin/home.html')
 
 
-def registro(request, TipodeID):           
+def registro(request):           
     if request.method == 'POST':
         username = request.POST.get("username")
         last_name = request.POST.get("last_name", None)
@@ -21,7 +21,7 @@ def registro(request, TipodeID):
         celular = request.POST.get("celular", None)
         direccion = request.POST.get("direccion", None)
         Fecha_Nacimiento = request.POST.get("Fecha_Nacimiento")
-        NumID = request.POST.get("NumID")
+        NumID = request.POST.get("Identificacion")
         TipodeID = request.POST.get("Tipo de identificacion")        
         Pais = request.POST.get("countries", None)  
         genero = request.POST.get("genero")
@@ -36,14 +36,15 @@ def registro(request, TipodeID):
                  email=email)
             user.set_password(password1)            
             #persona
-            persona = Persona(user=user, 
+            persona = Persona( 
                 celular=celular, 
                 direccion=direccion, 
                 Fecha_Nacimiento=Fecha_Nacimiento,
-                NumID=NumID, 
+                identificacion=NumID, 
                 tipo_identificacion=TipodeID,  
-                Pais=Pais, 
-                genero=genero)
+                paisOrigen=Pais, 
+                genero=genero,
+                user=user)
             user.save()
             persona.save()
             messages.success(request, 'Usuario creado correctamente')
@@ -62,6 +63,6 @@ def registro(request, TipodeID):
         "msg":msg,
         "lista_genero":lista_genero,
         "countries": pais,
-        "TIDlist": TIDlist
+        "TIDlist": TIDlist,
     })
 

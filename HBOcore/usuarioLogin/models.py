@@ -17,7 +17,7 @@ class Persona(models.Model):
     identificacion = models.CharField(max_length=50, db_column='Identificacion',  blank=True, null=True)
     TIDl=   [('CC', 'Cedula de Ciudadania'),
              ('PS', 'Pasaporte'),]     
-    tipo_identificacion = models.CharField(db_column='Tipo de identificacion', blank=True, null=True, choices=TIDl, max_length=9)         
+    tipo_identificacion = models.CharField(db_column='Tipo de identificacion', blank=True, null=True, choices=TIDl, max_length=2)         
     paisOrigen = CountryField()
     GENEROop=   [('M','Masculino'),
                 ('F','Femenino'), ]
