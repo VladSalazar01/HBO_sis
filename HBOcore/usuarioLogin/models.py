@@ -23,7 +23,7 @@ class Persona(models.Model):
 
     def __str__(self):
         #return self.user.username  #para que se muestre el nombre del usuario
-        return f"{self.user} {self.identificacion} ({self.genero})" 
+        return f"{self.user} - {self.identificacion} - ({self.genero})" 
         
     class Meta:
         managed = True

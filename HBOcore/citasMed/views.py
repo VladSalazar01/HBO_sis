@@ -2,14 +2,14 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic.base import TemplateView
-from django.core.mail import EmailMessage, message
 from django.conf import settings
 from django.contrib import messages
 from .models import citasmedicas
 from django.views.generic import ListView
 import datetime
-from django.template import Context
 from django.template.loader import render_to_string, get_template
+#nuestro forms
+from .forms import formAgendarCita
 
 """class HomeTemplateView(TemplateView):
     template_name = "index.html"
@@ -28,6 +28,19 @@ from django.template.loader import render_to_string, get_template
         )
         email.send()
         return HttpResponse("Email sent successfully!")"""
+
+def agendarCita(request):
+    if request.method == 'POST':
+        form = formAgendarCita(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('citasMed/perfil')
+    else:
+        form = formAgendarCita()
+    return render(request, 'agendarCita.html', {'form': form})
+
+def perfil(request):
+    return render(request, 'perfil.html')
 
 
 class AppointmentTemplateView(TemplateView):
@@ -60,32 +73,6 @@ class ManageAppointmentTemplateView(ListView):
     login_required = True
     paginate_by = 3
 
-
-    def post(self, request):
-        date = request.POST.get("date")
-        appointment_id = request.POST.get("appointment-id")
-        appointment = citasmedicas.objects.get(id=appointment_id)
-        appointment.accepted = True
-        appointment.accepted_date = datetime.datetime.now()
-        appointment.save()
-
-        data = {
-            "fname":appointment.first_name,
-            "date":date,
-        }
-
-        message = get_template('email.html').render(data)
-        email = EmailMessage(
-            "About your appointment",
-            message,
-            settings.EMAIL_HOST_USER,
-            [appointment.email],
-        )
-        email.content_subtype = "html"
-        email.send()
-
-        messages.add_message(request, messages.SUCCESS, f"You accepted the appointment of {appointment.first_name}")
-        return HttpResponseRedirect(request.path)
 
 
     def get_context_data(self,*args, **kwargs):

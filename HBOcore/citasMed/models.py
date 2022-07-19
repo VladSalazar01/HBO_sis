@@ -26,13 +26,14 @@ class Especialidadmedica(models.Model):
 #catalogo de horas primera hora, segunda , etc (horaN)
 #
 class Horariosmedicos(models.Model):    
-    horaN = models.CharField(db_column='HoraN', max_length=20, blank=True, null=True)    
-    hora_inicio = models.DateTimeField(max_length=10)
-    hora_fin = models.DateTimeField(max_length=10)  
+    horaN = models.CharField(db_column='HoraN', max_length=20, blank=True, null=True)
+    fechaCita = models.DateField(db_column='FechaCita', blank=True, null=True)
+    hora_inicio = models.TimeField(max_length=10)
+    hora_fin = models.TimeField(max_length=10)  
      
     def __str__(self):
-            return self.horaN
-
+            return f"{self.horaN} - {self.fechaCita}"
+            
     class meta:
         managed = True
         db_table = 'horariosmedicos'

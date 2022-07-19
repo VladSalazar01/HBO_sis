@@ -48,11 +48,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" href="#contact">Contact Us</a>
                     </li>
-                    {% if request.user.is_authenticated %}
-                    <li class="nav-item" role="presentation">
-                      <a class="nav-link active" href="{% url 'manage' %}">Manage</a>
-                  </li>
-                  {% endif %}
+                 
                   <li class="nav-item" role="presentation">
                     <a href="" style="float: left;cursor:pointer;" aria-expanded="true" title="You Have 6 New Appointments">
                       <i class="far fa-bell" style="font-size: 20px; float: left; color: black">

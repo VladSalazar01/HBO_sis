@@ -48,7 +48,7 @@ def registro(request):
             user.save()
             persona.save()
             messages.success(request, 'Usuario creado correctamente')
-            return redirect('/')            
+            return redirect('citasMed/perfil')        
         else:
             msg="Las contraseñas no coinciden"      
         
