@@ -13,8 +13,9 @@ app_name = 'citasMed'
 urlpatterns = [
 
     path("perfil", perfil , name='perfil'),
-    path("agendarCita", agendarCita , name='agendarCita'),
+    path("agendarCita", agendarCita , name='agendarCita'),  
     
+   # path("accounts/login/perfil",)   
 
 
 

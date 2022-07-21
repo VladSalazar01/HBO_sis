@@ -1,6 +1,8 @@
 #from email import message
+from django.urls import is_valid_path
 import django_countries as countries
 from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 #from .forms import CustomUserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -10,8 +12,22 @@ from .models import Persona
 # Create your views here.
 def home(request):
     return render(request, 'usuarioLogin/home.html')
+##############################
+def login_view(request):
+    if request.method == 'POST':
+        form= AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user= form.get_user()
+            login(request, user)
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else:    
+                return redirect('citasMed/perfil')
+    else:
+        messages.error(request, 'Usuario o contraseña incorrectos')
+    return render(request, 'registration/login.html')
 
-
+##############################
 def registro(request):           
     if request.method == 'POST':
         username = request.POST.get("username")

@@ -10,6 +10,7 @@ import datetime
 from django.template.loader import render_to_string, get_template
 #nuestro forms
 from .forms import formAgendarCita
+from django.contrib.auth.decorators import login_required
 
 """class HomeTemplateView(TemplateView):
     template_name = "index.html"
@@ -29,6 +30,7 @@ from .forms import formAgendarCita
         email.send()
         return HttpResponse("Email sent successfully!")"""
 
+@login_required(login_url='/accounts/login/')
 def agendarCita(request):
     if request.method == 'POST':
         form = formAgendarCita(request.POST)
@@ -39,6 +41,7 @@ def agendarCita(request):
         form = formAgendarCita()
     return render(request, 'agendarCita.html', {'form': form})
 
+@login_required(login_url='/accounts/login/')
 def perfil(request):
     return render(request, 'perfil.html')
 
