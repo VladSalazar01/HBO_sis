@@ -1,16 +1,20 @@
 from imp import lock_held
 from importlib.resources import contents
 from ssl import Options
+from webbrowser import get
+from xmlrpc.client import DateTime
 from django import forms
 from django.forms import ModelForm
+from psycopg2 import Date
 #from HBOcore.usuarioLogin.models import Medico
 from .models import  *
 from usuarioLogin.models import *
 from django.contrib.auth.models import User
 
 
+
 class formAgendarCita(forms.Form):
-    Paciente = forms.ModelChoiceField(User.objects.filter(id='4')  , disabled=False, label='Paciente')
+    Paciente = forms.ModelChoiceField(User.objects.filter(username="mitch02")  ,disabled=False, label='Paciente')
     Medico = forms.ModelChoiceField(Medico.objects.all() )   
     fechaCita = forms.DateField (label='Fecha de la cita', widget=forms.SelectDateWidget())
     especialidad = forms.ModelChoiceField (Especialidadmedica.objects.all())     

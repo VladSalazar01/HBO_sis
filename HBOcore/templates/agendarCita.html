@@ -14,6 +14,13 @@
         <div class="col-xs-1-12">
             <p>Ingrese datos apra agendamiento de cita[formulario]</p>
             <form method="post">
+                <div class="form-group">
+                    <label for="first_name">Nombre: {{ user.last_name }} {{user.first_name}}</label>
+                   
+                </div>
+
+
+
                 {% csrf_token %}
                 
                     {{ form.as_p }}
