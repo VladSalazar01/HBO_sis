@@ -63,8 +63,9 @@ class Medico(models.Model):
     Persona= models.OneToOneField(Persona, on_delete=models.CASCADE, db_column='Persona', blank=True, null=True)   
     especialidad = models.ManyToManyField(Especialidadmedica, blank=True)
 
+
 def __str__(self):
-        return f"{self.numero_colegiado}"
+        return f"{self.numero_colegiado}+{self.Persona}"
 
 class Meta:
         managed = True

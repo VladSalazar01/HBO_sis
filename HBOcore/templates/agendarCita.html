@@ -2,20 +2,35 @@
 
 {% block cta %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-1-12">
-                <p>Ingrese datos apra agendamiento de cita[formulario]</p>
-                
-            </div>
-            
-        </div>
-    </div>
+    
 
 
 
 {% endblock cta %}
 
 {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-1-12">
+            <p>Ingrese datos apra agendamiento de cita[formulario]</p>
+            <form method="post">
+                {% csrf_token %}
+                
+                    {{ form.as_p }}
+
+               
+                
+                <input type="submit" value="Agendar" class="btn btn-light btn-lg action-button" >
+                <a href="/" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
+                <br></br>
+               
+            </form>
+            
+                           
+            
+        </div>
+        
+    </div>
+</div>
 {% endblock content %}
 

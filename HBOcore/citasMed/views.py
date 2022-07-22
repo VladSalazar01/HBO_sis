@@ -8,6 +8,7 @@ from .models import citasmedicas
 from django.views.generic import ListView
 import datetime
 from django.template.loader import render_to_string, get_template
+from .forms import formAgendarCita
 #nuestro forms
 from .forms import formAgendarCita
 from django.contrib.auth.decorators import login_required
@@ -39,13 +40,17 @@ def agendarCita(request):
             return HttpResponseRedirect('citasMed/perfil')
     else:
         form = formAgendarCita()
-    return render(request, 'agendarCita.html', {'form': form})
+    return render(request, 'agendarCita.html', {"form": form})
 
 @login_required(login_url='/accounts/login/')
 def perfil(request):
+              
+
     return render(request, 'perfil.html')
+    
 
 
+""""
 class AppointmentTemplateView(TemplateView):
     template_name = "appointment.html"
 
@@ -84,4 +89,4 @@ class ManageAppointmentTemplateView(ListView):
         context.update({   
             "title":"Manage Appointments"
         })
-        return context
+        return context"""

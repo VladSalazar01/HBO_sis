@@ -26,13 +26,12 @@ class Especialidadmedica(models.Model):
 #catalogo de horas primera hora, segunda , etc (horaN)
 #
 class Horariosmedicos(models.Model):    
-    horaN = models.CharField(db_column='HoraN', max_length=20, blank=True, null=True)
-    fechaCita = models.DateField(db_column='FechaCita', blank=True, null=True)
+    horaN = models.CharField(db_column='HoraN', max_length=20, blank=True, null=True)    
     hora_inicio = models.TimeField(max_length=10)
     hora_fin = models.TimeField(max_length=10)  
      
     def __str__(self):
-            return f"{self.horaN} - {self.fechaCita}"
+            return f"{self.horaN} - {self.hora_inicio}"
             
     class meta:
         managed = True
@@ -44,6 +43,7 @@ class citasmedicas(models.Model):
     Medico = models.ForeignKey('usuarioLogin.Medico', on_delete=models.CASCADE, blank=True, null=True)      
     especialidad = models.ForeignKey(Especialidadmedica, on_delete=models.CASCADE, blank=True, null=True)
     horaN = models.ForeignKey(Horariosmedicos, on_delete=models.CASCADE, blank=True, null=True)
+    fechaCita = models.DateField(db_column='FechaCita', blank=True, null=True)
        
     creado = models.DateTimeField(default=timezone.now)
 
