@@ -1,6 +1,7 @@
 from imp import lock_held
 from importlib.resources import contents
 from ssl import Options
+from urllib import request
 from webbrowser import get
 from xmlrpc.client import DateTime
 from django import forms
@@ -12,59 +13,41 @@ from usuarioLogin.models import *
 from django.contrib.auth.models import User
 
 
-
+"""
 class formAgendarCita(forms.Form):
-    Paciente = forms.ModelChoiceField(User.objects.filter(username="mitch02")  ,disabled=False, label='Paciente')
+    especialidad = forms.ModelChoiceField (Especialidadmedica.objects.all()) 
     Medico = forms.ModelChoiceField(Medico.objects.all() )   
-    fechaCita = forms.DateField (label='Fecha de la cita', widget=forms.SelectDateWidget())
-    especialidad = forms.ModelChoiceField (Especialidadmedica.objects.all())     
+    fechaCita = forms.DateField (label='Fecha de la cita', widget=forms.SelectDateWidget())       
     hora_inicio = forms.ModelChoiceField(Horariosmedicos.objects.all(), label='Hora de inicio')   
     
     class Meta:
         model = citasmedicas
-        fields = ['Paciente', 'Medico', 'fechaCita', 'especialidad', 'hora_inicio']
-
+        fields = ['especialidad', 'Medico', 'fechaCita',  'hora_inicio']
 """
-class formAgenCita(ModelForm):
+#current_user = request.user
+
+class formAgendarCita(forms.ModelForm):  
+
+    pacienteid = forms.ModelChoiceField(User.objects.all(), label='Paciente')
+    especialidad = forms.ModelChoiceField (Especialidadmedica.objects.all()) 
+    Medico = forms.ModelChoiceField(Medico.objects.all() )   
+    fechaCita = forms.DateField (widget=forms.SelectDateWidget())       
+    hora_inicio = forms.ModelChoiceField(Horariosmedicos.objects.all(), label='Hora de inicio')   
     class Meta:
         model = citasmedicas
-        fields = ['Paciente', 'Medico', 'Fecha', 'especialidad', 'hora_inicio', ]
-        widgets = {
-            'Paciente': forms.TextInput(attrs={'class': 'form-control'}),
-            'Medico': forms.TextInput(attrs={'class': 'form-control'}),
-            'Fecha': forms.DateInput(attrs={'class': 'form-control'}),
-            'especialidad': forms.TextInput(attrs={'class': 'form-control'}),
-            'hora_inicio': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-        labels = {
-            'Paciente': 'Paciente',
-            'Medico': 'Medico',
-            'Fecha': 'Fecha',
-            'especialidad': 'Especialidad',
-            'hora_inicio': 'Hora',
-        }
-        help_texts = {
-            'Paciente': 'Ingrese el nombre del paciente',
-            'Medico': 'Ingrese el nombre del medico',
-            'Fecha': 'Ingrese la fecha de la cita',
-            'especialidad': 'Ingrese la especialidad',
-            'hora_inicio': 'Ingrese la hora de la cita',
-        }
-        error_messages = {
-            'Paciente': {
-                'required': 'Ingrese el nombre del paciente',
-            },
-            'Medico': {
-                'required': 'Ingrese el nombre del medico',
-            },
-            'Fecha': {
-                'required': 'Ingrese la fecha de la cita',
-            },
-            'especialidad': {
-                'required': 'Ingrese la especialidad',
-            },
-            'hora_inicio': {
-                'required': 'Ingrese la hora de la cita',
-            }
-            }
-"""
+        fields = ['pacienteid','especialidad', 'Medico', 'fechaCita',  'hora_inicio']
+        
+        
+        """labels = {'especialidad': 'Especialidad', 'Medico': 'Medico', 'fechaCita': 'Fecha de la cita', 'hora_inicio': 'Hora de inicio'}
+        widgets = {'especialidad': forms.Select(attrs={'class': 'form-control'}), 
+        'Medico': forms.Select(attrs={'class': 'form-control'}),
+        'fechaCita': forms.SelectDateWidget(),
+        'hora_inicio': forms.Select(attrs={'class': 'form-control'}),}
+        error_messages = {'especialidad': {'required': 'Este campo es obligatorio'}, 
+        'Medico': {'required': 'Este campo es obligatorio'}, 
+        'fechaCita': {'required': 'Este campo es obligatorio'}, 
+        'hora_inicio': {'required': 'Este campo es obligatorio'},}
+       """
+
+
+

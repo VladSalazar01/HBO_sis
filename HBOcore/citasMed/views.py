@@ -33,11 +33,25 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/accounts/login/')
 def agendarCita(request):
+    
     if request.method == 'POST':
         form = formAgendarCita(request.POST)
+
+        """if current_user.id == form.data['pacienteid']:
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Cita agendada correctamente')
+                return HttpResponseRedirect('/citasmedicas/')
+            else:
+                messages.error(request, 'Error al agendar la cita')
+                return HttpResponseRedirect('/citasmedicas/')
+                """
+
+
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('citasMed/perfil')
+            msg=messages.success(request, 'Cita agendada correctamente')
+            return render(request, 'perfil.html',msg )
     else:
         form = formAgendarCita()
     return render(request, 'agendarCita.html', {"form": form})

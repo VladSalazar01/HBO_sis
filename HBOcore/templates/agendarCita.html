@@ -15,10 +15,9 @@
             <p>Ingrese datos apra agendamiento de cita[formulario]</p>
             <form method="post">
                 <div class="form-group">
-                    <label for="first_name">Nombre: {{ user.last_name }} {{user.first_name}}</label>
-                   
+                                     
                 </div>
-
+                <label for="first_name">Paciente: {{ user.last_name }} {{user.first_name}}</label>  
 
 
                 {% csrf_token %}

@@ -22,7 +22,7 @@ class Persona(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_column='usuario', blank=True, null=True)#foranea one to one de user CASCADE
 
     def __str__(self):
-        #return self.user.username  #para que se muestre el nombre del usuario
+        #return self.identificacion  #para que se muestre el nombre del usuario
         return f"{self.user} - {self.identificacion} - ({self.genero})" 
         
     class Meta:
