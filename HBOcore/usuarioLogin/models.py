@@ -7,7 +7,7 @@ from citasMed.models import Especialidadmedica
 # Create your models here.
 
 class Persona(models.Model):
-    
+        
     celular = models.CharField(max_length=50, db_column='Celular', blank=True, null=True)      
     direccion = models.TextField(db_column='Direccion', blank=True, null=True)  
     Fecha_Nacimiento = models.DateField(db_column='Fecha_Nacimiento', blank=True, null=True) 
@@ -31,11 +31,13 @@ class Persona(models.Model):
         verbose_name_plural = 'Personas'
 
 class Paciente(models.Model):
+   
+
     p_registrodesde = models.DateField(db_column='registrodesde', blank=True, null=True)
-    Persona= models.OneToOneField(Persona, on_delete=models.CASCADE, db_column='Persona', blank=True, null=True)#foranea      
+    Persona= models.OneToOneField(Persona, on_delete=models.CASCADE, db_column='Persona', blank=True, null=True)#foranea          
     
     def __str__(self):
-        return f"{self.p_registrodesde}"
+        return f" {self.p_registrodesde}"
 
     class Meta:
         managed = True

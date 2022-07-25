@@ -1,13 +1,16 @@
 #from email import message
+from tokenize import group
 from django.urls import is_valid_path
 import django_countries as countries
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 #from .forms import CustomUserCreationForm
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
-from .models import Persona
+from .models import *
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 # Create your views here.
 def home(request):
@@ -28,12 +31,13 @@ def login_view(request):
     return render(request, 'registration/login.html')
 
 ##############################
+
 def registro(request):           
-    if request.method == 'POST':
+    if request.method == 'POST':             
         username = request.POST.get("username")
         last_name = request.POST.get("last_name", None)
         first_name = request.POST.get("first_name", None)
-        email = request.POST.get("email", None)
+        email = request.POST.get("email", None)        
         celular = request.POST.get("celular", None)
         direccion = request.POST.get("direccion", None)
         Fecha_Nacimiento = request.POST.get("Fecha_Nacimiento")
@@ -43,14 +47,16 @@ def registro(request):
         genero = request.POST.get("genero")
         password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
-
+        
         if password1 == password2:
             #user
             user= User(username=username, 
                 last_name=last_name,
                  first_name=first_name, 
-                 email=email)
-            user.set_password(password1)            
+                 email=email,
+                 )
+            user.set_password(password1)   
+                 
             #persona
             persona = Persona( 
                 celular=celular, 
@@ -60,11 +66,16 @@ def registro(request):
                 tipo_identificacion=TipodeID,  
                 paisOrigen=Pais, 
                 genero=genero,
-                user=user)
+                user=user)         
+              
             user.save()
-            persona.save()
-            messages.success(request, 'Usuario creado correctamente')
-            return redirect('citasMed/perfil')        
+            persona.save()    
+
+            group = Group.objects.get(name="G_pacientes")                   
+            user.groups.add(group)
+               
+            msg="Usuario creado correctamente"
+            return redirect('/')        
         else:
             msg="Las contraseñas no coinciden"      
         
@@ -82,3 +93,15 @@ def registro(request):
         "TIDlist": TIDlist,
     })
 
+
+def persona_post_save(sender, instance, created, **kwargs):
+    print ("personatopaciente_post_save_hecho")
+    if created:
+        perid = instance.id
+        print ("perid: ", perid) 
+        paciente = Paciente(id=perid)
+        paciente.save()
+    else:
+        print ("usertopaciente_error")   
+
+post_save.connect(persona_post_save, sender=Persona)
