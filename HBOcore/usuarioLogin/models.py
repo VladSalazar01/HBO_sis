@@ -70,7 +70,7 @@ class Medico(models.Model):
 
 
 def __str__(self):
-        return f"{self.numero_colegiado}+{self.Persona}"
+        return f"{self.numero_colegiado} + {self.Persona}"
 
 class Meta:
         managed = True

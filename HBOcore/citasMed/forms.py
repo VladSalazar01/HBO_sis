@@ -12,18 +12,6 @@ from .models import  *
 from usuarioLogin.models import *
 from django.contrib.auth.models import User
 
-
-"""
-class formAgendarCita(forms.Form):
-    especialidad = forms.ModelChoiceField (Especialidadmedica.objects.all()) 
-    Medico = forms.ModelChoiceField(Medico.objects.all() )   
-    fechaCita = forms.DateField (label='Fecha de la cita', widget=forms.SelectDateWidget())       
-    hora_inicio = forms.ModelChoiceField(Horariosmedicos.objects.all(), label='Hora de inicio')   
-    
-    class Meta:
-        model = citasmedicas
-        fields = ['especialidad', 'Medico', 'fechaCita',  'hora_inicio']
-"""
 #current_user = request.user
 
 class formAgendarCita(forms.ModelForm):  
@@ -39,7 +27,20 @@ class formAgendarCita(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['pacienteid'].queryset = User.objects.filter(groups__name='Paciente')
+        self.fields['Medico'].queryset = Medico.objects.none()
+
+        if 'especialidad' in self.data:
+            try:
+                especialidad_id = int(self.data.get('especialidad'))
+                self.fields['Medico'].queryset = Medico.objects.filter(especialidad=especialidad_id).order_by('nombre')
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.pk:
+            self.fields['Medico'].queryset = self.instance.especialidad.Medico_set.order_by('nombre')
+
+
+
+
         
         """labels = {'especialidad': 'Especialidad', 'Medico': 'Medico', 'fechaCita': 'Fecha de la cita', 'hora_inicio': 'Hora de inicio'}
         widgets = {'especialidad': forms.Select(attrs={'class': 'form-control'}), 

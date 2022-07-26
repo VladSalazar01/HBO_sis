@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-xs-1-12">
             <p>Ingrese datos para el agendamiento de cita</p>
-            <form method="post">
+            <form method="post" id="agendamientoform">
                 <div class="form-group">
                                      
                 </div>
@@ -13,7 +13,8 @@
 
                 {% csrf_token %}
                 
-                    {{ form.as_p }}               
+                    {{ form.as_p }}    
+                {{form.errors}}           
                 
                 <input type="submit" value="Agendar" class="btn btn-light btn-lg action-button" >
                 <a href="/" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
@@ -32,6 +33,8 @@
 {% block content %}
 
 {% endblock content %}
+
+{% block scripts %}
 
 <script>//jscript para dropdown dependiente
     //mas tokens de seguridad
@@ -55,44 +58,50 @@ const csrftoken = getCookie('csrftoken');
 
     let especialidades_field = document.getElementById("id_especialidad");
     let medicos_field = document.getElementById("id_medico");
+
     especialidades_field.addEventListener ("change", getEspecialidadId);
+      
 
-   
-   // let fecha_field = document.getElementById("id_fecha");
-    //let hora_field = document.getElementById("id_hora");
-   // let cita_field = document.getElementById("id_cita"); 
+            function getEspecialidadId(e){
+                console.log(e.target.value)
 
-    function getEspecialidadId(e){
-        console.log(e.target.value);
-        especialidades_id = e.target.value;
+                especialidades_id = e.target.value;
 
-        const data = {   'id': especialidades_id      };
-        let url = "{% url 'get_especialidades' %}";
+                const data = {   user_id: especialidades_id      };
+                let url = " {% url 'citasMed:get_medicos' %} "
 
         fetch(url, {
-            method: 'POST',// or 'PUT'
+            method: 'POST',// or 'PUT'            
             headers: {
                 'Content-Type': 'application/json',
-                'XCSRFToken': csrf_token                
+                'X-CSRFToken': csrftoken ,                   
             },
             body: JSON.stringify(data)            
         })
         .then(response => response.json())
 
         .then(data =>{console.log('Success:', data);
-        medicos_field.innerHTML = '<option value="" selected=""  > --seleccionar-- </option>';
+        medicos_field.innerHTML = '<option value="" selected=""  > --seleccionar-- </option>'
         for (let i = 0; i < data.length; i++) {
-            medicos_field.innerHTML += '<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
+            medicos_field.innerHTML += '<option value="$ {data[i]["id"]}" selected="">" $ {data[i]["numero_colegiado"]} </option>';
         }
         })
-        .catch((error) => {console.error('Error:', error);
-        });
-        
+        .catch((error) => {  console.error('Error:', error);});       
                 
 
     }
     
+    let input = document.getElementById("id_name")
+        let select = document.getElementsByTagName("select")
+        console.log(select)
 
+        input.classList.add("form-control")
+
+        for(let i = 0; i <select.length; i++){
+            select[i].classList.add("form-select")
+        }
 
 
 </script>
+
+{% endblock scripts %}

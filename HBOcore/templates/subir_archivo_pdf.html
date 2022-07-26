@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block cta %}    
+   <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p>Subir PDF de resultados de exámenes de imagenología/laboratorio</p>
+                <form method="post" id="pdfsubir" class="form-signin" enctype="multipart/form-data">
+                                    <div class="form-group">                        
+                        {% csrf_token %}
+                        <br></br>
+                        <input type="file" name="myfile" class="form-control" id="pdf" required accept="application/pdf">
+                        <br></br>        
+                        <input type="submit" value="Subir PDF" class="btn btn-light btn-lg action-button" >
+                        <br></br>
+                        <a href="/" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
+                        <br></br>
+                        <br></br>                       
+                    </div>
+                </form>
+                <br></br>
+                {% if uplodaded_file_url %}
+                <br></br>
+                    <p>PDF subido en: <a href="{{ uplodaded_file_url }}">{{ uplodaded_file_url }}</a></p>                    
+                    <br></br>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock cta %}
+
+
+   </div>

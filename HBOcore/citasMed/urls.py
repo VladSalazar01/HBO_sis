@@ -12,8 +12,9 @@ app_name = 'citasMed'
 urlpatterns = [
     path('', hometemplateview.as_view , name='hometemplateview'),
     path("perfil", perfil , name='perfil'),
-    path("agendarCita", agendarCita , name='agendarCita'), 
-    path("get_especialidades", get_especialidades , name='get_especialidades'), 
+    path("agendarCita", agendarCita , name='agendarCita'),
+
+    path("get_medicos", get_medicos , name='get_medicos'), 
     
    # path("accounts/login/perfil",)   
 

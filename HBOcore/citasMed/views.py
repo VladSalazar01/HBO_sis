@@ -19,8 +19,6 @@ from django.views.generic.base import TemplateView
 class hometemplateview(TemplateView):
     template_name = 'index.html'
 
-
-
 @login_required(login_url='/accounts/login/')
 def agendarCita(request):
     
@@ -36,17 +34,16 @@ def agendarCita(request):
     return render(request, 'agendarCita.html', {"form": form})
 
 @login_required(login_url='/accounts/login/')
-def perfil(request):
-              
+def perfil(request):              
 
     return render(request, 'perfil.html')
     
 @login_required(login_url='/accounts/login/')
-def get_especialidades(request):
+def get_medicos(request):
     data = json.loads(request.body)
-    especialidad_id = data["id"]
-    medico = Medico.objects.filter(especialidadMedica__id=especialidad_id)
-    print (especialidad_id)
+    medicos_id = data["id"]
+    medico = Medico.objects.filter(medicos__id=medicos_id)
+    print (medicos_id)
     return JsonResponse(list(medico.values("id","numero_colegiado")), safe=False)
 
 
