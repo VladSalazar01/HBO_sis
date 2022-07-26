@@ -1,52 +1,31 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.contrib import messages
+
+from usuarioLogin.models import Medico
 from .models import citasmedicas
 from django.views.generic import ListView
-import datetime
+import json
 from django.template.loader import render_to_string, get_template
 from .forms import formAgendarCita
 #nuestro forms
 from .forms import formAgendarCita
 from django.contrib.auth.decorators import login_required
+from django.views.generic.base import TemplateView
 
-"""class HomeTemplateView(TemplateView):
-    template_name = "index.html"
-    
-    def post(self, request):
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        message = request.POST.get("message")
+class hometemplateview(TemplateView):
+    template_name = 'index.html'
 
-        email = EmailMessage(
-            subject= f"{name} from doctor family.",
-            body=message,
-            from_email=settings.EMAIL_HOST_USER,
-            to=[settings.EMAIL_HOST_USER],
-            reply_to=[email]
-        )
-        email.send()
-        return HttpResponse("Email sent successfully!")"""
+
 
 @login_required(login_url='/accounts/login/')
 def agendarCita(request):
     
     if request.method == 'POST':
         form = formAgendarCita(request.POST)
-
-        """if current_user.id == form.data['pacienteid']:
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Cita agendada correctamente')
-                return HttpResponseRedirect('/citasmedicas/')
-            else:
-                messages.error(request, 'Error al agendar la cita')
-                return HttpResponseRedirect('/citasmedicas/')
-                """
-
 
         if form.is_valid():
             form.save()
@@ -62,6 +41,13 @@ def perfil(request):
 
     return render(request, 'perfil.html')
     
+@login_required(login_url='/accounts/login/')
+def get_especialidades(request):
+    data = json.loads(request.body)
+    especialidad_id = data["id"]
+    medico = Medico.objects.filter(especialidadMedica__id=especialidad_id)
+    print (especialidad_id)
+    return JsonResponse(list(medico.values("id","numero_colegiado")), safe=False)
 
 
 """"

@@ -1,42 +1,98 @@
 {% extends 'base.html' %}
 
 {% block cta %}
-
-    
-
-
-
-{% endblock cta %}
-
-{% block content %}
 <div class="container">
     <div class="row">
         <div class="col-xs-1-12">
-            <p>Ingrese datos apra agendamiento de cita[formulario]</p>
+            <p>Ingrese datos para el agendamiento de cita</p>
             <form method="post">
                 <div class="form-group">
                                      
                 </div>
                 <label for="first_name">Paciente: {{ user.last_name }} {{user.first_name}}</label>  
 
-
                 {% csrf_token %}
                 
-                    {{ form.as_p }}
-
-               
+                    {{ form.as_p }}               
                 
                 <input type="submit" value="Agendar" class="btn btn-light btn-lg action-button" >
                 <a href="/" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
                 <br></br>
                
-            </form>
-            
+            </form>           
                            
             
         </div>
         
     </div>
 </div>
+    
+{% endblock cta %}
+
+{% block content %}
+
 {% endblock content %}
 
+<script>//jscript para dropdown dependiente
+    //mas tokens de seguridad
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+
+    let especialidades_field = document.getElementById("id_especialidad");
+    let medicos_field = document.getElementById("id_medico");
+    especialidades_field.addEventListener ("change", getEspecialidadId);
+
+   
+   // let fecha_field = document.getElementById("id_fecha");
+    //let hora_field = document.getElementById("id_hora");
+   // let cita_field = document.getElementById("id_cita"); 
+
+    function getEspecialidadId(e){
+        console.log(e.target.value);
+        especialidades_id = e.target.value;
+
+        const data = {   'id': especialidades_id      };
+        let url = "{% url 'get_especialidades' %}";
+
+        fetch(url, {
+            method: 'POST',// or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+                'XCSRFToken': csrf_token                
+            },
+            body: JSON.stringify(data)            
+        })
+        .then(response => response.json())
+
+        .then(data =>{console.log('Success:', data);
+        medicos_field.innerHTML = '<option value="" selected=""  > --seleccionar-- </option>';
+        for (let i = 0; i < data.length; i++) {
+            medicos_field.innerHTML += '<option value="'+data[i].id+'">'+data[i].nombre+'</option>';
+        }
+        })
+        .catch((error) => {console.error('Error:', error);
+        });
+        
+                
+
+    }
+    
+
+
+
+</script>

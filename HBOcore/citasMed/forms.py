@@ -36,7 +36,10 @@ class formAgendarCita(forms.ModelForm):
     class Meta:
         model = citasmedicas
         fields = ['pacienteid','especialidad', 'Medico', 'fechaCita',  'hora_inicio']
-        
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['pacienteid'].queryset = User.objects.filter(groups__name='Paciente')
         
         """labels = {'especialidad': 'Especialidad', 'Medico': 'Medico', 'fechaCita': 'Fecha de la cita', 'hora_inicio': 'Hora de inicio'}
         widgets = {'especialidad': forms.Select(attrs={'class': 'form-control'}), 

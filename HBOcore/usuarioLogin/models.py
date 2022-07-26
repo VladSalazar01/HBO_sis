@@ -65,6 +65,9 @@ class Medico(models.Model):
     Persona= models.OneToOneField(Persona, on_delete=models.CASCADE, db_column='Persona', blank=True, null=True)   
     especialidad = models.ManyToManyField(Especialidadmedica, blank=True)
 
+    especialidadMedica = models.ForeignKey(Especialidadmedica, on_delete=models.CASCADE, 
+        db_column='Especialidad_medica', blank=True, null=True, related_name='Especialidad_Medica')
+
 
 def __str__(self):
         return f"{self.numero_colegiado}+{self.Persona}"
