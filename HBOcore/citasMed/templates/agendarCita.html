@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-1-12">
+            <p>Ingrese datos para el agendamiento de cita</p>
+            <form method="post" id="agendamientoform">
+                <div class="form-group">
+                                     
+                </div>
+                <label for="first_name">Paciente: {{ user.last_name }} {{user.first_name}}</label>  
+
+                {% csrf_token %}
+                
+                    {{ form.as_p }}    
+                {{form.errors}}           
+                
+                <input type="submit" value="Agendar" class="btn btn-light btn-lg action-button" >
+                <a href="/perfil" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
+                <br></br>
+               
+            </form>           
+                           
+            
+        </div>
+        
+    </div>
+</div>
+    
+{% endblock cta %}
+
+{% block content %}
+
+{% endblock content %}
+
+{% block scripts %}
+
+
+
+{% endblock scripts %}

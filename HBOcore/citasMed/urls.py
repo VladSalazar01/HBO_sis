@@ -10,11 +10,13 @@ from django.conf.urls.static import static
 app_name = 'citasMed'
 
 urlpatterns = [
-    path('', hometemplateview.as_view , name='hometemplateview'),
-    path("perfil", perfil , name='perfil'),
-    path("agendarCita", agendarCita , name='agendarCita'),
+   # path('', hometemplateview.as_view , name='hometemplateview'),
+    #path("perfil/", perfil , name='perfil'),
+    path("agendarCita/", agendarCita , name='agendarCita'),
 
-    path("get_medicos", get_medicos , name='get_medicos'), 
+    #path('registro/', registro, name='registro'), 
+
+    path("load_medicos", load_medicos , name='load_medicos'), 
     
    # path("accounts/login/perfil",)   
 

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-1-12">
+                <p>Visualización de Medicos [RESULTADOS DE BUSQUEDA</p>         
+                                            
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="text" name="query" value="{{ request.GET.query }}">
+                    <input type="submit" value="Buscar">
+                </form>
+                
+                {% if users %}
+                    <ul>
+                        <table>
+                            <thead>
+                              <tr>
+                                <th>Usuario</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Acciones</th>                            
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for user in users %}
+                                <tr>
+                                 <td> {{ user.username }}</td>
+                                  <td>{{ user.first_name }}</td>
+                                  <td>{{ user.last_name }}</td>
+                                  <td>  
+                                    <a href="{% url 'admin:auth_user_change' user.id %}">Editar</a>
+                                    <a href="{% url 'delete_user' user.id %}" onclick="return confirm('Confirma borrar al Médico?');">Borrar</a>
+                                  </td>                                 
+                                  
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+
+                    </ul>
+                    {% else %}
+                    <p>No se han encontrado médicos</p>
+                {% endif %}
+                                                 
+                    
+
+                <a href="/registro" class="btn btn-light btn-lg action-button" type="button">Agregar Médico</a>
+                <a href="/Staffperfil" class="btn btn-light btn-lg action-button" type="button">Atrás</a>
+                <a href="/perfil" class="btn btn-light btn-lg action-button" type="button">Deseo una cita para mí</a>
+            </div>
+           
+        </div>
+    </div>
+
+
+
+{% endblock cta %}
+
+{% block content %}
+<a name="Ver citas" class="btn btn-primary" href="#" role="button"></a>
+<a name="Agendar citass" class="btn btn-primary" href="citasMed/agendarCita.html" role="button"></a>
+{% endblock content %}

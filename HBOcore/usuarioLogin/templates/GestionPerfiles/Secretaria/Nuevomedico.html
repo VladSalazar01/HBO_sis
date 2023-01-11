@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load countries %}
+{% get_countries as countries %}
+{% block cta %}
+
+    <div class="row">
+        <div class="col-12 col-md-6 col-xl-5 offset-xl-1">
+            <h1>Registro de Nuevo médico</h1>
+                <p>Ingrese datos de registro</p>
+                         
+            <form action="" method="post">
+                {% csrf_token %}
+                <!--{{ form.as_p }}-->     
+                <input type="hidden" name="Group" value="G_pacientes">         
+                Usuario: <input type="text" name="username" value=""required/>   <br>   
+                Apellidos: <input type="text" name="last_name" value=""required/><br>
+                Nombres: <input type="text" name="first_name" value=""required/><br>
+                Email: <input type="email" name="email" value=""required/><br>
+                Celular : <input type="text" name="celular" value=""/><br>
+                Direccion: <textarea type="textfield" name="direccion" rows="4" cols="50" value=""></textarea><br>
+                Fecha de Nacimiento: <input type="date" name="Fecha_Nacimiento" value=""/><br>
+                Numero de identificación: 
+                <input type="text" name="Identificacion" value=""/><br>             
+                Tipo de identificación: <select name="Tipo de identificacion" required>
+                            <option value="">Seleccione</option> 
+                            {% for valu, descripc in TIDlist %}
+                            <option value="{{ valu }}">{{ descripc }}</option>
+                            {% endfor %}                    
+                </select><br>               
+                Nacionalidad:<select name="countries" values="Ecuador">
+                        {% for country in countries %}
+                        <option value="{{ country.code }}">{{ country.name }}</option>
+                        {% endfor %}
+                        </select> <br>
+                Genero: <select name="genero" required>
+                            <option value="">Seleccion</option> 
+                            {% for val, descrip in lista_genero %}
+                            <option value="{{ val }}">{{ descrip }}</option>
+                            {% endfor %}                    
+                        </select><br>
+                Contraseña: <input type="password" name="password1" value=""required/><br>
+                Confirmar Contraseña: <input type="password" name="password2" value=""required /><br>
+                               
+
+                <input type="submit" value="Confirmar" class="btn btn-light btn-lg action-button">
+                <a href="/Staffperfil" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
+                <br></br>
+                <!--<a href="{% url 'login' %}" class="btn btn-light btn-lg action-button" type="button">Iniciar Sesión</a>
+                -->
+        </div>
+
+    </div>
+
+{% endblock cta %}
+
+{% block content %}
+
+{% endblock content %}

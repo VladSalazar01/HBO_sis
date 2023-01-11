@@ -34,3 +34,7 @@ if settings.DEBUG:
 
 urlpatterns+=[re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT})]
 
+#personalizando sitio admin para HBO
+admin.site.index_title = "Administración HBO "
+admin.site.site_header = "Administración Hospital Básico El Oro"
+admin.site.site_title = "Hospital básico El Oro"

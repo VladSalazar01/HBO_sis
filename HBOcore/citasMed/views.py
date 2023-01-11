@@ -33,18 +33,13 @@ def agendarCita(request):
         form = formAgendarCita()
     return render(request, 'agendarCita.html', {"form": form})
 
-@login_required(login_url='/accounts/login/')
-def perfil(request):              
 
-    return render(request, 'perfil.html')
     
 @login_required(login_url='/accounts/login/')
-def get_medicos(request):
-    data = json.loads(request.body)
-    medicos_id = data["id"]
-    medico = Medico.objects.filter(medicos__id=medicos_id)
-    print (medicos_id)
-    return JsonResponse(list(medico.values("id","numero_colegiado")), safe=False)
+def load_medicos(request):
+    especialidad_id = request.GET.get('especialidad')
+    medicos= Medico.objects.filter(especialidad_id=especialidad_id)
+    return render(request, 'medicos_dropdown_list_options.html', {'medicos': medicos})
 
 
 """"

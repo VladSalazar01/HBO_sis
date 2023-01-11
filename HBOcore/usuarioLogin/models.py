@@ -2,16 +2,35 @@ from django.db import models
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
 from citasMed.models import Especialidadmedica
-#from usuarioLogin.snippets.country import COUNTRIES
+#para validaciones (cedula)
+from django.core.exceptions import ValidationError
+
+##para post_save acciones despues de submit un form
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+##timezone
+from django.utils import timezone
 
 # Create your models here.
 
-class Persona(models.Model):
-        
+def validate_unique_and_numeric(value):
+    if Persona.objects.filter(identificacion=value).exists():
+        raise ValidationError('This value must be unique')
+    if len(value) != 10:
+        raise ValidationError('This value must be exactly 10 characters')
+    if not value.isnumeric():
+        raise ValidationError('This value must be numeric')
+
+class Persona(models.Model):        
     celular = models.CharField(max_length=50, db_column='Celular', blank=True, null=True)      
     direccion = models.TextField(db_column='Direccion', blank=True, null=True)  
     Fecha_Nacimiento = models.DateField(db_column='Fecha_Nacimiento', blank=True, null=True) 
-    identificacion = models.CharField(max_length=50, db_column='Identificacion',  blank=True, null=True)
+    identificacion = models.CharField(
+                                    max_length=50, db_column='Identificacion',
+                                    null=True, blank=False,
+                                    validators=[validate_unique_and_numeric]
+                                    )
     TIDl=   [('CC', 'Cedula de Ciudadania'),
              ('PS', 'Pasaporte'),]     
     tipo_identificacion = models.CharField(db_column='Tipo de identificacion', blank=True, null=True, choices=TIDl, max_length=2)         
@@ -30,10 +49,8 @@ class Persona(models.Model):
         db_table = 'persona'
         verbose_name_plural = 'Personas'
 
-class Paciente(models.Model):
-   
-
-    p_registrodesde = models.DateField(db_column='registrodesde', blank=True, null=True)
+class Paciente(models.Model):  
+    p_registrodesde = models.DateField(db_column='registrodesde', blank=True, null=True, default=timezone.now)
     Persona= models.OneToOneField(Persona, on_delete=models.CASCADE, db_column='Persona', blank=True, null=True)#foranea          
     
     def __str__(self):
@@ -43,6 +60,10 @@ class Paciente(models.Model):
         managed = True
         db_table = 'paciente'
         verbose_name_plural = 'Pacientes'
+@receiver(post_save, sender=Persona)# crea instancia de paciente automaticamente despues de que una isntancia persona se haya creado venga de donde venga
+def create_patient(sender, instance, created, **kwargs):
+    if created:
+        Paciente.objects.create(Persona=instance)
 
 class Historialclinico(models.Model):
     fechacreacion = models.DateField(db_column='Fechacreacion', blank=True, null=True)  
@@ -67,12 +88,9 @@ class Medico(models.Model):
 
     especialidadMedica = models.ForeignKey(Especialidadmedica, on_delete=models.CASCADE, 
         db_column='Especialidad_medica', blank=True, null=True, related_name='Especialidad_Medica')
-
-
-def __str__(self):
-        return f"{self.numero_colegiado} + {self.Persona}"
-
-class Meta:
-        managed = True
-        db_table = 'medico'
-        verbose_name_plural = 'Médicos'
+    def __str__(self):
+            return f"{self.numero_colegiado} + {self.Persona}"
+    class Meta:
+            managed = True
+            db_table = 'medico'
+            verbose_name_plural = 'Médicos'

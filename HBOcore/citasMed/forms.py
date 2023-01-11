@@ -6,7 +6,7 @@ from webbrowser import get
 from xmlrpc.client import DateTime
 from django import forms
 from django.forms import ModelForm
-from psycopg2 import Date
+#from psycopg2 import Date
 #from HBOcore.usuarioLogin.models import Medico
 from .models import  *
 from usuarioLogin.models import *
@@ -32,11 +32,11 @@ class formAgendarCita(forms.ModelForm):
         if 'especialidad' in self.data:
             try:
                 especialidad_id = int(self.data.get('especialidad'))
-                self.fields['Medico'].queryset = Medico.objects.filter(especialidad=especialidad_id).order_by('nombre')
+                self.fields['Medico'].queryset = Medico.objects.filter(especialidad=especialidad_id)
             except (ValueError, TypeError):
-                pass
+                pass# invalid form data
         elif self.instance.pk:
-            self.fields['Medico'].queryset = self.instance.especialidad.Medico_set.order_by('nombre')
+            self.fields['Medico'].queryset = self.instance.especialidad.Medico_set.order_by('numero_colegiado')
 
 
 

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-1-12">
+                <p>Perfil de ususario [Staff perfil de usuario staff MEDICO MEDICO]</p>
+
+                <a href="#" class="btn btn-light btn-lg action-button" type="button">Historiales médicos [app]</a>
+                <a href="/PacientesLista" class="btn btn-light btn-lg action-button" type="button">Pacientes Registrados</a>
+                <a href="../pdfGestion/subir_archivo_pdf" class="btn btn-light btn-lg action-button" type="button">Subir resultados de exámenes</a>
+                <a href="/perfil" class="btn btn-light btn-lg action-button" type="button">Deseo una cita para mí</a>
+            </div>
+           
+        </div>
+    </div>
+
+
+
+{% endblock cta %}
+
+{% block content %}
+<a name="Ver citas" class="btn btn-primary" href="#" role="button"></a>
+<a name="Agendar citass" class="btn btn-primary" href="citasMed/agendarCita.html" role="button"></a>
+{% endblock content %}
