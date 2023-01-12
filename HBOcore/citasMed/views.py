@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import messages
 
 from usuarioLogin.models import Medico
-from .models import citasmedicas
+from .models import *
 from django.views.generic import ListView
 import json
 from django.template.loader import render_to_string, get_template
@@ -15,6 +15,13 @@ from .forms import formAgendarCita
 from .forms import formAgendarCita
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
+#para calendario 
+from datetime import datetime, timedelta
+
+from schedule import models
+from schedule.models import Event
+import json
+
 
 class hometemplateview(TemplateView):
     template_name = 'index.html'
@@ -41,6 +48,12 @@ def load_medicos(request):
     medicos= Medico.objects.filter(especialidad_id=especialidad_id)
     return render(request, 'medicos_dropdown_list_options.html', {'medicos': medicos})
 
+@login_required(login_url='/accounts/login/')
+def appointment_view(request):
+    events = Event.objects.all()
+    events_json = json.dumps(list(events.values()))
+    context = {'events': events_json}
+    return render(request, 'appointment.html', context)
 
 """"
 class AppointmentTemplateView(TemplateView):

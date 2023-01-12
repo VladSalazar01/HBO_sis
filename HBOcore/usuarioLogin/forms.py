@@ -35,9 +35,7 @@ class UserProfileForm(UserCreationForm):
     paisOrigen = CountryField().formfield(widget=forms.Select)
     TIDl=   [('CC', 'Cedula de Ciudadania'),
              ('PS', 'Pasaporte'),] 
-    tipo_identificacion = forms.ChoiceField(required=True, choices=TIDl, widget=forms.Select)
-
-    
+    tipo_identificacion = forms.ChoiceField(required=True, choices=TIDl, widget=forms.Select)    
     identificacion = forms.CharField(validators=[numeric_regex], widget=forms.TextInput)    
     Fecha_Nacimiento = forms.DateField(required=True, widget=forms.DateInput(attrs={'type': 'date', 'years': range(1910, current_year)}))
     direccion = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 40}))

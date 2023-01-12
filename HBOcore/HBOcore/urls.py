@@ -22,10 +22,18 @@ from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #usuarios y permisos
     path('', include('usuarioLogin.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('citasMed/', include('citasMed.urls')),
+    
     path('pdfGestion/', include('pdfGestion.urls')),
+    #citas medicas
+    path('citasMed/', include('citasMed.urls')),
+
+ ##   ###Apps Complementarias
+    #scheduler calendario
+    path('schedule/', include('schedule.urls')),
+    #path('bower/', include('django_bower.urls')),
 
 ]
 

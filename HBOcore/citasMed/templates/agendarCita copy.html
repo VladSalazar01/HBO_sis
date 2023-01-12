@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load scheduletags %}
+{% block cta %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-1-12">
+            <p>Ingrese datos para el agendamiento de cita</p>
+            <form method="post" id="agendamientoform">
+                <div class="form-group">
+                                     
+                </div>
+                <label for="first_name">Paciente: {{ user.last_name }} {{user.first_name}}</label>  
+
+                {% csrf_token %}
+                
+                    {{ form.as_p }}    
+                {{form.errors}}           
+                
+                <input type="submit" value="Agendar" class="btn btn-light btn-lg action-button" >
+                <a href="/perfil" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
+                <br></br>
+               
+            </form>   
+                
+        <link rel="stylesheet" type="text/css" href="{% static 'scheduler/css/fullcalendar.min.css' %}">
+        <div id='calendar'></div>
+
+    <div id="fullCalModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h4 id="modalTitle" class="modal-title"></h4>
+                </div>
+                <div id="modalBody" class="modal-body"></div>
+                <div class="modal-footer">
+                    <a href="#" id="eventUrl" target="_blank" class="btn btn-primary">Event Link</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+            
+        </div>
+        
+    </div>
+</div>
+    
+{% endblock cta %}
+
+{% block content %}
+
+{% endblock content %}
+
+{% block scripts %}
+
+<script src="{% static 'scheduler/js/fullcalendar.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            events: "{% url 'scheduler:event_json' %}",
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            eventClick: function(event, jsEvent, view) {
+                $('#modalTitle').html(event.title);
+                $('#modalBody').html(event.description);
+                $('#eventUrl').attr('href',event.url);
+                $('#fullCalModal').modal();
+                return false;
+            }
+        });
+    });
+</script>
+
+{% endblock scripts %}

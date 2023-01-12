@@ -18,13 +18,18 @@ class formAgendarCita(forms.ModelForm):
 
     pacienteid = forms.ModelChoiceField(User.objects.all(), label='Paciente')
     especialidad = forms.ModelChoiceField (Especialidadmedica.objects.all()) 
-    Medico = forms.ModelChoiceField(Medico.objects.all() )   
-    fechaCita = forms.DateField (widget=forms.SelectDateWidget())       
-    hora_inicio = forms.ModelChoiceField(Horariosmedicos.objects.all(), label='Hora de inicio')   
+
+
+
     class Meta:
         model = citasmedicas
-        fields = ['pacienteid','especialidad', 'Medico', 'fechaCita',  'hora_inicio']
-    
+        fields = ['pacienteid','especialidad', 
+        #'Medico', 'fechaCita',  'hora_inicio'
+        ]
+
+
+
+'''  
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['Medico'].queryset = Medico.objects.none()
@@ -40,18 +45,21 @@ class formAgendarCita(forms.ModelForm):
 
 
 
+    Medico = forms.ModelChoiceField(Medico.objects.all() )   
+    fechaCita = forms.DateField (widget=forms.SelectDateWidget())       
+    hora_inicio = forms.ModelChoiceField(Horariosmedicos.objects.all(), label='Hora de inicio')   
+'''
 
-        
-        """labels = {'especialidad': 'Especialidad', 'Medico': 'Medico', 'fechaCita': 'Fecha de la cita', 'hora_inicio': 'Hora de inicio'}
-        widgets = {'especialidad': forms.Select(attrs={'class': 'form-control'}), 
-        'Medico': forms.Select(attrs={'class': 'form-control'}),
-        'fechaCita': forms.SelectDateWidget(),
-        'hora_inicio': forms.Select(attrs={'class': 'form-control'}),}
-        error_messages = {'especialidad': {'required': 'Este campo es obligatorio'}, 
-        'Medico': {'required': 'Este campo es obligatorio'}, 
-        'fechaCita': {'required': 'Este campo es obligatorio'}, 
-        'hora_inicio': {'required': 'Este campo es obligatorio'},}
-       """
+'''  
+    labels = {'especialidad': 'Especialidad', 'Medico': 'Medico', 'fechaCita': 'Fecha de la cita', 'hora_inicio': 'Hora de inicio'}
+    widgets = {'especialidad': forms.Select(attrs={'class': 'form-control'}), 
+    'Medico': forms.Select(attrs={'class': 'form-control'}),
+    'fechaCita': forms.SelectDateWidget(),
+    'hora_inicio': forms.Select(attrs={'class': 'form-control'}),}
+    error_messages = {'especialidad': {'required': 'Este campo es obligatorio'}, 
+    'Medico': {'required': 'Este campo es obligatorio'}, 
+    'fechaCita': {'required': 'Este campo es obligatorio'}, 
+    'hora_inicio': {'required': 'Este campo es obligatorio'},}      
 
-
+'''
 
