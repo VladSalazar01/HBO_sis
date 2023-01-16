@@ -33,15 +33,9 @@ urlpatterns = [
  ##   ###Apps Complementarias
     #scheduler calendario
     path('schedule/', include('schedule.urls')),
-    #path('bower/', include('django_bower.urls')),
+    
 
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns+=[re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT})]
-
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 #personalizando sitio admin para HBO
 admin.site.index_title = "Administración HBO "
 admin.site.site_header = "Administración Hospital Básico El Oro"

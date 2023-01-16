@@ -16,11 +16,14 @@ from .forms import formAgendarCita
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
 #para calendario 
+from schedule import *
 from datetime import datetime, timedelta
-
+from django.core import serializers
 from schedule import models
 from schedule.models import Event
 import json
+
+
 
 
 class hometemplateview(TemplateView):
@@ -51,9 +54,57 @@ def load_medicos(request):
 @login_required(login_url='/accounts/login/')
 def appointment_view(request):
     events = Event.objects.all()
-    events_json = json.dumps(list(events.values()))
-    context = {'events': events_json}
-    return render(request, 'appointment.html', context)
+    events_data = serializers.serialize('json', events)
+    return render(request, 'appointment.html', {'events': events_data})
+
+def calendar_events(request):
+    events = Event.objects.all()
+    event_list = []
+    for event in events:
+        event_list.append({
+            'title': event.title,
+            'start': event.start_time.isoformat(),
+            'end': event.end_time.isoformat(),
+            'description': event.description
+        })
+    return JsonResponse(event_list, safe=False)
+
+#json que contiene los horarios#
+
+events = []
+days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+start_times = ["09:00:00", "16:00:00"]
+end_times = ["12:00:00", "18:00:00"]
+
+for day in days:
+    for i in range(len(start_times)):
+        event = {
+            "title": "Available",
+            "start": day + " " + start_times[i],
+            "end": day + " " + end_times[i],
+            "allDay": False
+        }
+        events.append(event)
+
+with open('Horarios_de_atencion.json', 'w') as json_file:
+    json.dump(events, json_file)
+   
+def calendar_view(request):
+    with open('Horarios_de_atencion.json') as json_file:
+        events = json.load(json_file)
+    return JsonResponse(events, safe=False)
+
+def calendar_view01(request):
+    events = Horariosmedicos.objects.all()
+    return render(request, 'calendario/calendar01.html', {'events': events})
+'''
+def calendar_view(request):
+    with open('Horarios_de_atencion.json') as json_file:
+        events = json.load(json_file)
+        #events = json.dumps(events)
+    return render(request, 'calendario/calendar.html', {'events': json.dumps(events)})
+'''
+
 
 """"
 class AppointmentTemplateView(TemplateView):

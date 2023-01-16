@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from telnetlib import LOGOUT
+import os
+
 #import os BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -58,6 +60,7 @@ INSTALLED_APPS = [
     #calendario
     'schedule',
                             #'djangobower',  
+    'jsonify',
 
 ]
 
@@ -150,18 +153,26 @@ SCHEDULER_TIME_ZONE = 'UTC'
 
 #####IMPORTANTE ESTO DEBE IR ACTIVADO SOLO SI SE REQUIERE QUE el scheduler se vaya a usar como standalone####
 #osea sin 'integrarse al proyecto'
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/schedule/'
+#LOGIN_URL = '/login/'
+#LOGIN_REDIRECT_URL = '/schedule/'
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-if DEBUG:
-    STATICFILES_DIRS = [BASE_DIR / "static"]
-else:
-    STATIC_ROOT = BASE_DIR / "static"
+
+
+
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "static"
+
+
+#STATIC_ROOT = 'C:\\HBO_sis\\HBOcore\\static\\'
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, "static"),
+#] 
+
 '''
 STATICFILES_FINDERS = [
     'djangobower.finders.BowerFinder',
@@ -181,12 +192,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #direccion de MEDIA
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+#MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
-
-###############################
+###############################################################################################################
 
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)

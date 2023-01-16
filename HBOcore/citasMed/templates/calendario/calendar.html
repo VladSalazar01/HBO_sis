@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load jsonify %}
+{% load scheduletags %}
+
+{% block cta %}
+
+<form method="post" id="event-select-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+</form>
+
+<div id="calendar"></div>
+
+{% endblock cta %}
+
+{% block content %}
+
+{% endblock content %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("/calendar/")
+        .then(response => response.json())
+        .then(data => {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                events: data,
+                eventClick: function(info) {
+                    var form = document.getElementById('event-select-form');
+                    form.event_choice.value = info.event.id;
+                    form.submit();
+                },
+                eventRender: function(info) {
+                    info.el.style.backgroundColor = 'green';
+                    info.el.style.color = 'white';
+                },
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                },
+                defaultView: 'dayGridMonth'
+            });
+
+            calendar.render();
+        });
+    });
+</script>
+                
+{% endblock scripts %}           
+                
+                
+                
+                            

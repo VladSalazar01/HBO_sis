@@ -7,6 +7,7 @@ from citasMed.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+#from schedule import *
 
 app_name = 'citasMed'
 
@@ -21,6 +22,14 @@ urlpatterns = [
     
    # path("accounts/login/perfil",)   
    path('appointment/', views.appointment_view, name='appointment'),
+   path('calendar/', calendar_view, name='calendar'),
+   path('calendar01/', calendar_view01, name='calendar01'),
+
+   path('calendar/events/', calendar_events, name='calendar_events'),
+
+   #path('calendar/', CalendarView.as_view(), name='calendar'),
+   #path('schedule_event/', views.schedule_event, name='schedule_event'),
+   #path('schedule_event/<str:start>/<str:end>/', views.schedule_event, name='schedule_event_start_end'),
 
 
 

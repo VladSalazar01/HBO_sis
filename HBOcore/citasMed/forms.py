@@ -11,16 +11,25 @@ from django.forms import ModelForm
 from .models import  *
 from usuarioLogin.models import *
 from django.contrib.auth.models import User
+from django import forms
 
 #current_user = request.user
+from django import forms
+
+class EventForm(forms.Form):
+    date = forms.DateField()
+    start_time = forms.TimeField()
+    end_time = forms.TimeField()
+
+
+class EventSelectForm(forms.Form):
+    event_choice = forms.ChoiceField(choices=[])
+
 
 class formAgendarCita(forms.ModelForm):  
 
     pacienteid = forms.ModelChoiceField(User.objects.all(), label='Paciente')
     especialidad = forms.ModelChoiceField (Especialidadmedica.objects.all()) 
-
-
-
     class Meta:
         model = citasmedicas
         fields = ['pacienteid','especialidad', 

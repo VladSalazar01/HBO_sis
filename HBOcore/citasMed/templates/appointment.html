@@ -21,6 +21,7 @@
             locale: 'es',
             events: events,
             eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
+
             eventColor: '#378006',
             eventTextColor: 'white',
             header: {
@@ -28,15 +29,25 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            eventClick: function(info) {
-                // this function can be used to open a modal with event details when user clicks on an event
-                console.log(info.event.title);
-            },
-            selectable: true,
-            select: function(info) {
-                // this function can be used to open a modal to create a new event when user clicks on a selected date
-                console.log(info.startStr);
+
+
+            events: '/calendar/events/',  // URL to retrieve events from
+            eventColor: '#378006',
+            eventRender: function(info) {
+                var element = $(info.el);
+                if (info.event.extendedProps.description) {
+                    element.tooltip({
+                        title: info.event.extendedProps.description,
+                        trigger: 'hover',
+                        placement: 'top',
+                        container: 'body'
+                    });
+                }
             }
+            
+
+          
+            
         });
 
         calendar.render();//IMPORTANTE NO OLVIDARSE DE CORRER "colect static"
