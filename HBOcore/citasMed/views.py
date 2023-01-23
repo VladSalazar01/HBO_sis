@@ -58,6 +58,7 @@ def appointment_view(request):
     return render(request, 'appointment.html', {'events': events_data})
 
 def calendar_events(request):
+    print(request.GET)
     events = Event.objects.all()
     event_list = []
     for event in events:
@@ -67,6 +68,7 @@ def calendar_events(request):
             'end': event.end_time.isoformat(),
             'description': event.description
         })
+    print(event_list)
     return JsonResponse(event_list, safe=False)
 
 #json que contiene los horarios#

@@ -11,13 +11,8 @@
                          
             <form action="{% url 'registro' %}" method="post">
                {% csrf_token %}
-
-
-                {{ form.as_p }}
-                
-             
-                               
-
+                {{ form.as_p }}             
+                                          
                 <input type="submit" value="Confirmar" class="btn btn-light btn-lg action-button"><br>
                 <a href="/" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
                 <br></br>

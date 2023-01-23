@@ -28,6 +28,8 @@ from .tables import *
 from django.core.paginator import Paginator
 #para search bars usuarios
 from django.db.models import Q
+#para captcha
+#from captcha.mixins import VerifyCaptchaViewMixin
 
 
 # Create your views here.
@@ -53,28 +55,36 @@ def registro(request):
         form = UserProfileForm()
     return render(request, 'registration/registro.html', {'form': form})
 
-
 ##para validación de cedula (esto fue  sin usar forms django, solo view posible deprecacion)
 #deprecado [codigo legado xd]
-'''
-def validate_unique_and_numeric(value):
-    if Persona.objects.filter(identificacion=value).exists():
-        raise ValidationError('This value must be unique')
-    if len(value) != 10:
-        raise ValidationError('This value must be exactly 10 characters')
-    if not value.isnumeric():
-        raise ValidationError('This value must be numeric')
-        '''
-
 
 #devuelve home (anon user)
 def home(request):
     return render(request, 'usuarioLogin/home.html')
 ##############################
-#devuelve perfil de usuario (paciente)[landingpage]
+#devuelve login (paciente)[landingpage]
+
 def login_view(request):
     if request.method == 'POST':
-        form= AuthenticationForm(data=request.POST)
+        form = LoginForm(request.POST)
+        captcha_form = CaptchaForm(request.POST)
+        if form.is_valid() and captcha_form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                form.add_error(None, "Invalid credentials.")
+    else:
+        form = LoginForm()
+        captcha_form = CaptchaForm()
+    return render(request, 'registration/login.html', {'form': form, 'captcha_form': captcha_form})
+
+'''def login_view(request):
+    if request.method == 'POST':
+        form= LoginForm(request.POST)
         if form.is_valid():
             user= form.get_user()
             login(request, user)
@@ -83,8 +93,8 @@ def login_view(request):
             else:    
                 return redirect('home')
     else:
-        messages.error(request, 'Usuario o contraseña incorrectos')
-    return render(request, 'registration/login.html')
+        form= LoginForm()
+    return render(request, 'registration/login.html')'''
 
 #####perfil de paciente (todo registro es paciente antes de ser cualquier otro rol)
 @login_required(login_url='/accounts/login/')
@@ -183,73 +193,6 @@ def Medicperfil(request):
 
 
 
-#lógica para el formulario de registro de paciente
-#tendremos que deprecarla aprendiendo a usar las forms de django (no borrar)[codigo de legado xd]
-
-'''def registro(request):           
-    if request.method == 'POST':             
-        username = request.POST.get("username")
-        last_name = request.POST.get("last_name", None)
-        first_name = request.POST.get("first_name", None)
-        email = request.POST.get("email", None)        
-        celular = request.POST.get("celular", None)
-        direccion = request.POST.get("direccion", None)
-        Fecha_Nacimiento = request.POST.get("Fecha_Nacimiento")#si jode añadir un ",none"
-        NumID = request.POST.get("Identificacion")
-        TipodeID = request.POST.get("Tipo de identificacion")        
-        Pais = request.POST.get("countries", None)  
-        genero = request.POST.get("genero")
-        password1 = request.POST.get("password1")
-        password2 = request.POST.get("password2")
-
-        
-        if password1 == password2:
-            #user
-            user= User(
-                username=username, 
-                last_name=last_name,
-                first_name=first_name, 
-                email=email,
-                )
-            user.set_password(password1)   
-            user.save()  
-            #persona
-            persona = Persona( 
-                user=user,
-                celular=celular, 
-                direccion=direccion, 
-                Fecha_Nacimiento=Fecha_Nacimiento,
-                
-                identificacion=NumID, 
-                tipo_identificacion=TipodeID,  
-                paisOrigen=Pais, 
-                genero=genero,
-                )         
-            #user.save y persona save estan juntos (ver uqe pasa si no)  
-           
-            persona.save()  
-            #messages.success(request, "Nuevo paciemte registrado existosamente")  
-            msg="Usuario creado correctamente"
-            return redirect('/')        
-        else:
-            #messages.success(request, "Las contraseñas no coinciden")
-            msg="Las contraseñas no coinciden"      
-        
-    else:  
-        #messages.success(request, "Error al crear Paciente, No se ha registrado al paciente")      
-        msg="No se pudo crear el usuario" 
-        lista_genero = Persona.GENEROop 
-        pais = countries.countries
-        TIDlist = Persona.TIDl
-
-    return render(request, 'registration/registro.html',
-    {
-        "msg":msg,
-        "lista_genero":lista_genero,
-        "countries": pais,
-        "TIDlist": TIDlist,
-    })
-'''
 
 
 

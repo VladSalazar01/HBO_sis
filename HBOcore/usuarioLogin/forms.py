@@ -1,7 +1,8 @@
 import django
 import datetime
 current_year = datetime.datetime.now().year
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django import forms
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
@@ -10,6 +11,10 @@ from .models import *
 #para validaciones (cedula)
 import re
 from django.core.validators import RegexValidator
+#para captcha
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
+
 
 #Form para busqueda de pacientes
 class UserSearchForm(forms.Form):
@@ -43,10 +48,20 @@ class UserProfileForm(UserCreationForm):
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
 
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+
     class Meta:
         model = User
         fields = ['username',"first_name", "last_name",'email', 
         'password1', 'password2']
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=255)
+    password = forms.CharField(max_length=255, widget=forms.PasswordInput)
+
+class CaptchaForm(forms.Form):
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     
 

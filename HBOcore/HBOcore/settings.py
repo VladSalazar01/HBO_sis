@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     #otras
     'django_countries',
     'django_tables2',
+    #'recaptcha',
+    'captcha',
     #calendario
     'schedule',
                             #'djangobower',  
@@ -76,6 +78,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+#en produccion estas llaves deven venir de archivo
+RECAPTCHA_PUBLIC_KEY = '6LfwDxskAAAAAHGIpkIbNRn5RRlbGc9rSL7BhOz9'
+RECAPTCHA_PRIVATE_KEY = '6LfwDxskAAAAAEpR6hazrj7JWgkHT1quvPZMfw-K'
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 ROOT_URLCONF = 'HBOcore.urls'
 
@@ -166,6 +173,7 @@ SCHEDULER_TIME_ZONE = 'UTC'
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "static"
+#STATICFILES_DIRS = [BASE_DIR / 'static']
 
 
 #STATIC_ROOT = 'C:\\HBO_sis\\HBOcore\\static\\'
