@@ -5,6 +5,7 @@ from usuarioLogin.forms import UserProfileForm
 from usuarioLogin.models import Persona
 from usuarioLogin.views import home
 
+########                TESTS PARA VIEWS.PY                        ######################
 class RegistroTestCase(TestCase):
 
     def setUp(self):
@@ -30,8 +31,6 @@ class RegistroTestCase(TestCase):
         self.assertEqual(user.paisOrigen, self.data['paisOrigen']) 
         self.assertEqual(user.tipo_identificacion, self.data['tipo_identificacion']) 
         self
-
-
 
 class HomeTestCase(unittest.TestCase):
 

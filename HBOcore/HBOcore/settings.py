@@ -172,8 +172,8 @@ SCHEDULER_TIME_ZONE = 'UTC'
 
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / "static"
-#STATICFILES_DIRS = [BASE_DIR / 'static']
+#STATIC_ROOT = BASE_DIR / "static"
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 
 #STATIC_ROOT = 'C:\\HBO_sis\\HBOcore\\static\\'

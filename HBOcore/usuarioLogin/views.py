@@ -82,19 +82,7 @@ def login_view(request):
         captcha_form = CaptchaForm()
     return render(request, 'registration/login.html', {'form': form, 'captcha_form': captcha_form})
 
-'''def login_view(request):
-    if request.method == 'POST':
-        form= LoginForm(request.POST)
-        if form.is_valid():
-            user= form.get_user()
-            login(request, user)
-            if 'next' in request.POST:
-                return redirect(request.POST.get('next'))
-            else:    
-                return redirect('home')
-    else:
-        form= LoginForm()
-    return render(request, 'registration/login.html')'''
+
 
 #####perfil de paciente (todo registro es paciente antes de ser cualquier otro rol)
 @login_required(login_url='/accounts/login/')
@@ -192,7 +180,19 @@ def Medicperfil(request):
     return render(request, 'GestionPerfiles/Medico/Medicperfil.html')
 
 
-
+'''def login_view(request):
+    if request.method == 'POST':
+        form= LoginForm(request.POST)
+        if form.is_valid():
+            user= form.get_user()
+            login(request, user)
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else:    
+                return redirect('home')
+    else:
+        form= LoginForm()
+    return render(request, 'registration/login.html')'''
 
 
 
