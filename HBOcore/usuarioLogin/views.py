@@ -98,19 +98,14 @@ def add_user_to_group(sender, instance, created, **kwargs):
         instance.groups.add(group)
         instance.save()
 
-### SECETARIA perfil de secretaria (no accede el paciente ni medico)
+### SECRETARIA perfil de secretaria (no accede el paciente ni medico)
 @login_required(login_url='/accounts/login/')
 @allowed_users(allowed_roles=['G_Secretaria','Administradores'])
 def Staffperfil(request):              
 
     return render(request, 'GestionPerfiles/Secretaria/Staffperfil.html')
 
-####visualizacion de la tabla de médicos
-@login_required(login_url='/accounts/login/')
-@allowed_users(allowed_roles=['G_Secretaria','Administradores'])
-def PersonalMedico(request):              
 
-    return render(request, 'GestionPerfiles/Secretaria/PersonalMedico.html')
 
 ####agregar nuevo médico desde secretaria (acceso solo secretaria)
 @login_required(login_url='/accounts/login/')
@@ -151,6 +146,12 @@ def delete_user(request, user_id):
     user.is_active = False
     user.save()
     return redirect('search_users')
+####visualizacion de la tabla de médicos
+@login_required(login_url='/accounts/login/')
+@allowed_users(allowed_roles=['G_Secretaria','Administradores'])
+def PersonalMedico(request):              
+
+    return render(request, 'GestionPerfiles/Secretaria/PersonalMedico.html')
 #####busqueda de medicos
 def search_medicos(request):
     form = UserSearchForm(request.POST or None)
