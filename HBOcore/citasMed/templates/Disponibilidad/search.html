@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+
+<form method="get">
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+{% if medicos %}
+<table>
+    <tr>
+        <th>Doctor Name</th>
+        <th>Especialidad</th>
+    </tr>
+    {% for medico in medicos %}
+    <tr>
+        <td>{{ medico.user.first_name }} {{ medico.user.last_name }}</td>
+        <td>{% for especialidad in medico.especialidad.all %}
+            {{ especialidad.especialidad }}
+            {% endfor %}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No results found.</p>
+{% endif %}
+
+{% endblock cta %}

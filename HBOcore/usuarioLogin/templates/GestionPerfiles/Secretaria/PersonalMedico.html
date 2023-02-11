@@ -7,7 +7,8 @@
             <div class="col-xs-1-12">
                 <p>Visualización de personal medico [ver tabla de medicos]</p>
 
-                <a href="/Nuevomedico" class="btn btn-light btn-lg action-button" type="button">Agregar personal médico</a>
+                
+                <a href="{% url '/nuevo_medico' %}">Agregar personal médico</a>
                 <a href="{% url 'search_medicos' %}?q={{ query }}">Buscar medicos</a>
                 <a href="/Staffperfil" class="btn btn-light btn-lg action-button" type="button">Atrás</a>
                 <a href="/perfil" class="btn btn-light btn-lg action-button" type="button">Deseo una cita para mí</a>

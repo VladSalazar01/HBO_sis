@@ -24,10 +24,14 @@ urlpatterns = [
       #perfil de secretaría  solo secretaria tiene acceso
       path('Staffperfil/', Staffperfil, name='Staffperfil'), #modificar[para medico uno para secretaria otro]
       path('PersonalMedico/', PersonalMedico, name='PersonalMedico'),
-      path('Nuevomedico/', Nuevomedico, name='Nuevomedico'),
+      #path('Nuevomedico/', Nuevomedico, name='Nuevomedico'),     [deprecado, eliminando...]
 
       #Perfil de medico, los medicos tienen acceso
       path('Medicperfil/', Medicperfil, name='Medicperfil'),
+
+      #nuevo medico
+      path('nuevo_medico/', views.nuevo_medico, name='nuevo_medico'),
+      
 
 
               ] 

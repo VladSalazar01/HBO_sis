@@ -1,4 +1,3 @@
-import django
 import datetime
 current_year = datetime.datetime.now().year
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -14,7 +13,7 @@ from django.core.validators import RegexValidator
 #para captcha
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
-
+from citasMed.models import Especialidadmedica
 
 #Form para busqueda de pacientes
 class UserSearchForm(forms.Form):
@@ -55,6 +54,35 @@ class UserProfileForm(UserCreationForm):
         fields = ['username',"first_name", "last_name",'email', 
         'password1', 'password2']
 
+####Forms para registro de nuevo médico (full auto)*************
+class UserForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2',)
+
+class PersonaForm(forms.ModelForm):
+    class Meta:
+        model = Persona
+        fields = ('identificacion', 'celular', 'direccion')
+
+class EspecialidadMedicaForm(forms.ModelForm):
+    class Meta:
+        model = Especialidadmedica
+        fields = ('especialidad', 'descripcion')
+
+class MedicoForm(forms.ModelForm):
+    especialidad = forms.ModelMultipleChoiceField(
+        queryset=Especialidadmedica.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+    class Meta:
+        model = Medico
+        fields = ('numero_colegiado',)
+#*******************
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=255)

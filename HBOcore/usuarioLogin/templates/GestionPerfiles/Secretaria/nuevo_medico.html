@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ persona_form.as_p }}
+    {{ medico_form.as_p }}
+    {{ especialidad_medica_form.as_table }}
+    <input type="submit" value="Create User">
+  </form>
+
+
+
+{% endblock cta %}
+
+{% block content %}
+<a name="Ver citas" class="btn btn-primary" href="#" role="button"></a>
+<a name="Agendar citass" class="btn btn-primary" href="citasMed/agendarCita.html" role="button"></a>
+{% endblock content %}

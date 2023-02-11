@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+
+<h1>{{ Medico.numero_colegiado }}'s Calendar</h1>
+<p>Specialty: {{ Medico.Especialidadmedica.especialidad }}</p>
+<table>
+{% for appointment in appointments %}
+  <tr>
+    <td>{{ appointment.date }}</td>
+    <td>{{ appointment.start_time }}</td>
+    <td>{{ appointment.end_time }}</td>
+  </tr>
+{% endfor %}
+</table>
+
+
+{% endblock cta %}

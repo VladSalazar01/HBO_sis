@@ -81,15 +81,20 @@ class Historialclinico(models.Model):
 
 
 class Medico(models.Model):    
+    user = models.OneToOneField(User, on_delete=models.CASCADE, db_column='Usuario', blank=True, null=True) 
     numero_colegiado = models.IntegerField(db_column='Numero_colegiado', blank=True, null=True)  # Field name made lowercase.
     m_registrodesde = models.DateField(db_column='M_registrodesde', blank=True, null=True)  # Field name made lowercase.
     Persona= models.OneToOneField(Persona, on_delete=models.CASCADE, db_column='Persona', blank=True, null=True)   
     especialidad = models.ManyToManyField(Especialidadmedica, blank=True)
+    estado_choice = [('DI', 'Disponible'),
+                    ('OC', 'Ocupado'),]   
+    estado = models.CharField(db_column='Estado_m', max_length=10, blank=True, null=True, choices=estado_choice)
 
     #especialidadMedica = models.ForeignKey(Especialidadmedica, on_delete=models.CASCADE, 
      #   db_column='Especialidad_medica', blank=True, null=True, related_name='Especialidad_Medica')
     def __str__(self):
-            return f"{self.numero_colegiado} + {self.Persona}"
+            return f'{self.user.first_name} + {self.user.last_name}'
+          
     class Meta:
             managed = True
             db_table = 'medico'

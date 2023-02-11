@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+    <h1>Appointment Confirmation</h1>
+    <p>Your appointment with {{ appointment.doctor.name }} on {{ appointment.date }} from {{ appointment.start_time }} to {{ appointment.end_time }} has been scheduled successfully.</p>
+    <p>We look forward to seeing you!</p>
+
+{% endblock cta %}

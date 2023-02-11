@@ -1,18 +1,17 @@
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.contrib import messages
-
-from usuarioLogin.models import Medico
+from django.contrib.auth.models import User, Group
+from usuarioLogin.models import *
 from .models import *
 from django.views.generic import ListView
 import json
 from django.template.loader import render_to_string, get_template
-from .forms import formAgendarCita
 #nuestro forms
-from .forms import formAgendarCita
+from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
 #para calendario 
@@ -22,8 +21,6 @@ from django.core import serializers
 from schedule import models
 from schedule.models import Event
 import json
-
-
 
 
 class hometemplateview(TemplateView):
@@ -42,8 +39,6 @@ def agendarCita(request):
     else:
         form = formAgendarCita()
     return render(request, 'agendarCita.html', {"form": form})
-
-
     
 @login_required(login_url='/accounts/login/')
 def load_medicos(request):
@@ -56,6 +51,68 @@ def appointment_view(request):
     events = Event.objects.all()
     events_data = serializers.serialize('json', events)
     return render(request, 'appointment.html', {'events': events_data})
+
+
+#######disponibilidad medica            [FALLIDO]    ################
+testvar=2
+Medico_id=testvar
+
+def calendario_medico(request, Medico_id=2):
+    medico = Medico.objects.get(id=Medico_id)
+    appointments = citasmedicas.objects.filter(Medico=medico)
+    context = {'doctor': medico, 'appointments': appointments}
+    return render(request, 'Disponibilidad/doctor_calendar.html', context)
+####confirmación
+def schedule_appointment(request, doctor_id):
+    doctor = Medico.objects.get(id=doctor_id)
+    date = request.POST.get('date')
+    start_time = request.POST.get('start_time')
+    end_time = request.POST.get('end_time')
+    overlapping_appointments = citasmedicas.objects.filter(
+        doctor=doctor, date=date,
+        start_time__lte=end_time, end_time__gte=start_time
+    )
+    if overlapping_appointments.exists():
+        # Handle appointment conflict
+        error_message = "The requested appointment time conflicts with another appointment. Please choose another time."
+        context = {'error_message': error_message}
+        return render(request, 'Disponibilidad/schedule_appointment.html', context)
+    else:
+        appointment = citasmedicas.objects.create(
+            doctor=doctor, date=date,
+            start_time=start_time, end_time=end_time
+        )
+        # Send appointment confirmation
+        return redirect('appointment_confirmation', appointment_id=appointment.id)
+##############
+
+
+
+###NUEVO POR PARTES SEARCHBAR PARA AGENDAMIENTO#####*******
+
+def search_doctors(request):
+    medicos = None
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        especialidad = form.cleaned_data['especialidad']
+        medicos = Medico.objects.filter(especialidad__especialidad__icontains=especialidad)
+    return render(request, 'Disponibilidad/search.html', {'form': form, 'medicos': medicos})
+#***********************************
+def search_doctors2(request):
+    form = SearchForm(request.GET or None)
+    medicos = Medico.objects.all()
+    if form.is_valid():
+        especialidad = form.cleaned_data['especialidad']
+        medicos = medicos.filter(especialidad=especialidad)
+    context = {
+        'form': form,
+        'medicos': medicos,
+    }
+    return render(request, 'Disponibilidad/search.html', context)
+
+#*****************-*-*-*-*-*-*-*--*-
+
+
 
 def calendar_events(request):
     print(request.GET)

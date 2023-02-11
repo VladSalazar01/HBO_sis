@@ -37,6 +37,15 @@ class formAgendarCita(forms.ModelForm):
         ]
 
 
+'''class SearchForm(forms.Form):
+    specialty = forms.ModelChoiceField(
+        queryset=Especialidadmedica.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        empty_label='Seleccione especialidad',
+    )'''
+
+class SearchForm(forms.Form):
+    especialidad = forms.ModelChoiceField(queryset=Especialidadmedica.objects.all(), empty_label="Select Specialty")
 
 '''  
     def __init__(self, *args, **kwargs):

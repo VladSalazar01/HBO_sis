@@ -5,16 +5,14 @@ from .models import *
 
 # Register your models here.
 
+class User(admin.ModelAdmin):
+    list_display= [ 'first_name', 'last_name']
+
 #@admin.register(Persona)
 
 class PersonaAdmin(admin.ModelAdmin):
     list_display= [ 'user', 'identificacion', 'genero']
 
-#@admin.register(Paciente)
-"""@receiver(post_save, sender=Persona)
-def after_persona_save(signal, instance, **kwargs):
-    paciente=Paciente(persona=instance)
-    paciente.save() """
 
 class PacienteAdmin(admin.ModelAdmin):
     model=Paciente
@@ -28,7 +26,9 @@ class HistorialclinicoAdmin(admin.ModelAdmin):
 #@admin.register(Medico)
 
 class MedicoAdmin(admin.ModelAdmin):
-    list_display= [ 'Persona','numero_colegiado']
+    list_display= [ 'user','numero_colegiado']
+
+
 
 admin.site.register(Persona, PersonaAdmin)
 admin.site.register(Paciente, PacienteAdmin)

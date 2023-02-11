@@ -107,12 +107,12 @@ def Staffperfil(request):
 
 
 
-####agregar nuevo médico desde secretaria (acceso solo secretaria)
-@login_required(login_url='/accounts/login/')
+####agregar nuevo médico desde secretaria (acceso solo secretaria) [deprecado, eliminando...]
+'''@login_required(login_url='/accounts/login/')
 @allowed_users(allowed_roles=['G_Secretaria','Administradores'])
 def Nuevomedico(request):              
 
-    return render(request, 'GestionPerfiles/Secretaria/Nuevomedico.html')
+    return render(request, 'GestionPerfiles/Secretaria/Nuevomedico.html')'''
 
 ##########COMPARTIDO lista de pacientes desde medicos y secretaría###################
 @login_required(login_url='/accounts/login/')
@@ -181,19 +181,44 @@ def Medicperfil(request):
     return render(request, 'GestionPerfiles/Medico/Medicperfil.html')
 
 
-'''def login_view(request):
+####form para ingreso de nuevo medico
+def nuevo_medico(request):
     if request.method == 'POST':
-        form= LoginForm(request.POST)
-        if form.is_valid():
-            user= form.get_user()
-            login(request, user)
-            if 'next' in request.POST:
-                return redirect(request.POST.get('next'))
-            else:    
-                return redirect('home')
+        user_form = UserForm(request.POST)
+        persona_form = PersonaForm(request.POST)
+        medico_form = MedicoForm(request.POST)
+        #especialidad_medica_form = EspecialidadMedicaForm(request.POST)
+
+        if user_form.is_valid() and persona_form.is_valid() and medico_form.is_valid() :
+            user = user_form.save()
+            persona = persona_form.save(commit=False)
+            persona.user = user
+            persona.save()
+            medico = medico_form.save(commit=False)
+            medico.user = user
+            medico.save()
+            '''especialidades = especialidad_medica_form.save(commit=False)
+            for especialidad in especialidades:
+                especialidad.medico.add(medico)
+                especialidad.save()'''
+            g_medicos = Group.objects.get(name='G_Medicos')
+            g_medicos.user_set.add(user)
+
+            return redirect('home')
     else:
-        form= LoginForm()
-    return render(request, 'registration/login.html')'''
+        user_form = UserForm()
+        persona_form = PersonaForm()
+        medico_form = MedicoForm()
+        #especialidad_medica_form = EspecialidadMedicaForm()
+
+    return render(request, 'GestionPerfiles/Secretaria/nuevo_medico.html/', {
+        'user_form': user_form,
+        'persona_form': persona_form,
+        'medico_form': medico_form,
+        #'especialidad_medica_form': especialidad_medica_form
+    })
+#***
+
 
 
 

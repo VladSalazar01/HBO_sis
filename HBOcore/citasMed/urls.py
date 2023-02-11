@@ -27,6 +27,13 @@ urlpatterns = [
 
    path('calendar/events/', calendar_events, name='calendar_events'),
 
+   ####Nuevo citas médicas
+   path('calendario_medico/', calendario_medico, name='calendario_medico'),
+   path('schedule_appointment/', schedule_appointment, name='schedule_appointment'),
+
+   #por partes******
+   path('search/', search_doctors, name='search_doctors'),
+
    #path('calendar/', CalendarView.as_view(), name='calendar'),
    #path('schedule_event/', views.schedule_event, name='schedule_event'),
    #path('schedule_event/<str:start>/<str:end>/', views.schedule_event, name='schedule_event_start_end'),
