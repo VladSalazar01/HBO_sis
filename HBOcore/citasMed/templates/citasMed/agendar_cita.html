@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+    <h2>Agendar cita con {{ medico.user.first_name }} {{ medico.user.last_name }}</h2>
+    <p>Por favor, ingrese la fecha y hora en la que desea agendar su cita.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Agendar cita</button>
+        <button type="button" class="btn btn-light btn-lg action-button" onclick="window.history.back();">Atrás</button>
+        <a href="{% url 'citasMed:filtrar_medicos' %}"><button type="button" class="btn btn-light btn-lg action-button" >Cancelar</button></a>
+    </form>
+    <p>Recuerde que nuestros horarios de atención son de Lunes a Viernes</p>
+    <p>de 09:00 a 12:00</p>
+    <p> y de de 16:00 a 18:00</p>
+    <p>las citas duran 30 minutos</p>
+{% endblock cta%}

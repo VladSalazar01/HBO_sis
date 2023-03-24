@@ -1,0 +1,15 @@
+
+{% extends 'base.html' %}
+
+{% block cta %}
+<h1>Agendamiento de citas médicas</h1>
+  <h2>Buscar médicos por especialidad</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-light btn-lg action-button" >Buscar</button>
+    
+    
+    <a href="/" class="btn btn-light btn-lg action-button" type="button">Cancelar</a>
+  </form>
+{% endblock cta %}

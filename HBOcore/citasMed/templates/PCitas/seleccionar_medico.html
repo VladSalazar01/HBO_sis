@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+<h1>Seleccionar médico</h1>
+<p>Seleccione un médico para su cita:</p>
+<form method="post">
+  {% csrf_token %}
+  <ul class="list-group mt-3">
+    {% for medico in medicos_disponibles %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ medico.user.get_full_name }}
+        <span>{{ fecha|date:"F j, Y" }} a las {{ hora|time:"h:i A" }}</span>
+        <input type="radio" name="medico_id" value="{{ medico.id }}">
+      </li>
+    {% empty %}
+      <li class="list-group-item">No hay médicos disponibles.</li>
+    {% endfor %}
+  </ul>
+  <button type="submit" class="btn btn-primary mt-3">Continuar</button>
+</form>
+{% endblock cta%}

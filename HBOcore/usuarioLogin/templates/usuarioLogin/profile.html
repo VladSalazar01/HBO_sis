@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-1-12">
+                <p>Perfil de usuario Paciente</p>
+
+                    {% for msg in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Aviso!:</strong>  {{msg}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    {% endfor %}
+
+
+                <a href="/citasMed/s_espec" class="btn btn-light btn-lg action-button" type="button">Agendar Cita</a>
+                <a href="/" class="btn btn-light btn-lg action-button" type="button">Actualizar Enfermedades preexistentes</a>
+                <a href="/Medicperfil" class="btn btn-light btn-lg action-button" type="button">Soy Médico</a>
+                <a href="/Staffperfil" class="btn btn-light btn-lg action-button" type="button">Soy Administrativo</a>
+                
+            </div>
+           
+        </div>
+    </div>
+
+{% endblock cta %}
+

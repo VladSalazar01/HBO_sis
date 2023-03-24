@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+    <h2>Seleccionar médico</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                
+                <th>Agendar cita</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medico in medicos %}
+                <tr>
+                    <td>{{ medico.user.first_name }} {{ medico.user.last_name }}</td>
+                   
+                    <td>
+                        <a href="{% url 'citasMed:agendar_cita' medico.id %}" class="btn btn-primary">
+                            Agendar cita
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            <button type="button" class="btn btn-light btn-lg action-button" onclick="window.history.back();">Atrás</button>
+            <a href="{% url 'citasMed:filtrar_medicos' %}"><button type="button" class="btn btn-light btn-lg action-button" >Cancelar</button></a>
+        </tbody>
+    </table>
+{% endblock cta %}

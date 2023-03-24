@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+<h1>Seleccionar hora</h1>
+<p>Seleccione la hora para su cita:</p>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <ul class="list-group mt-3">
+    {% for horario in horarios_disponibles %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ horario.medico.user.get_full_name }}
+        <span>{{ horario.hora|time:"h:i A" }}</span>
+        <input type="radio" name="medico_id" value="{{ horario.medico.id }}">
+      </li>
+    {% empty %}
+      <li class="list-group-item">No hay horarios disponibles.</li>
+    {% endfor %}
+  </ul>
+  <button type="submit" class="btn btn-primary mt-3">Continuar</button>
+</form>
+{% endblock cta%}

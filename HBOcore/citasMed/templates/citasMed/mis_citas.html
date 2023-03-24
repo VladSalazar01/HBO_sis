@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block cta %}
+    <h1>Mis citas programadas</h1>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid orange;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <table>
+        <thead>
+            <tr>
+                <th>Médico</th>
+                <th>Especialidad</th>
+                <th>Fecha de la cita</th>
+                <th>Hora de la cita</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cita in citas %}
+                <tr>
+                    <td>{{ cita.Medico.user.first_name }} {{ cita.Medico.user.first_name }}</td>
+                    <td>{{ cita.Medico.especialidad }}</td>
+                    <td>{{ cita.fecha_hora|date:"Y-m-d" }}</td>
+                    <td>{{ cita.fecha_hora|time:"H:i" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <button onclick="history.back()">Atrás</button>
+{% endblock cta %}

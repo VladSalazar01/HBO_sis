@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ persona_form.as_p }}
+    Numero de Colegiado {{ medico_form.numero_colegiado }}<br>
+    Especialidad {{ medico_form.especialidad }}
+    
+    <input type="submit" value="Registrar Médico" class="btn btn-light btn-lg action-button">
+    <a href="/Staffperfil" class="btn btn-light btn-lg action-button" type="button">Atrás</a>
+  </form>
+
+
+
+{% endblock cta %}
+
+{% block content %}
+<a name="Ver citas" class="btn btn-primary" href="#" role="button"></a>
+<a name="Agendar citass" class="btn btn-primary" href="citasMed/agendarCita.html" role="button"></a>
+{% endblock content %}

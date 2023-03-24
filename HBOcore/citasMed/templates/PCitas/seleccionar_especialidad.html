@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+<h1>Seleccionar especialidad</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary mt-3">Continuar</button>
+  </form>
+  
+{% endblock cta%}

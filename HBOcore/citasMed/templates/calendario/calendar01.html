@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load jsonify %}
+{% load scheduletags %}
+
+{% block cta %}
+
+
+<div class="calendar">
+    {% calendar_table events %}
+    {% for event in events %}
+        {% event_detail event %}
+    {% endfor %}
+
+</div>
+
+<form method="POST" action="{% url 'schedule_create_event' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Schedule">
+</form>
+
+{% endblock cta %}
+
+
+{% block content %}
+
+{% endblock content %}
+{% block scripts %}
+<script>
+    // code to make events selectable and schedule them according to specified working days and hours
+    $(document).ready(function() {
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            events: '/get-events/',
+            selectable: true,
+</script>
+{% endblock scripts %}                    
+                
+                            

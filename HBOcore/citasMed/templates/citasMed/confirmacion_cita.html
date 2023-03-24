@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+  <h2>Confirmación de cita</h2>
+  <p>Ha agendado una cita con el médico {{ cita.Medico.user.first_name }} {{ cita.Medico.user.last_name }} para el {{ cita.fecha_hora|date:"d/m/Y" }} a las {{ cita.fecha_hora|time:"H:i" }}.</p>
+  <a href="{% url 'citasMed:filtrar_medicos' %}"><button type="button" class="btn btn-light btn-lg action-button" >Agendar otra cita</button></a>
+{% endblock cta %}

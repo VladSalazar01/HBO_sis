@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-1-12">
+                <p>Visualización de personal medico [ver tabla de medicos]</p>
+
+              
+                
+                <a href="{% url 'nuevo_medico' %}" class="btn btn-light btn-lg action-button" type="button">Agregar personal médico[2]</a>
+                <a href="{% url 'search_medicos' %}?q={{ query }}">Buscar medicos</a>
+                <a href="/Staffperfil" class="btn btn-light btn-lg action-button" type="button">Atrás</a>
+                <a href="/perfil" class="btn btn-light btn-lg action-button" type="button">Deseo una cita para mí</a>
+            </div>
+           
+        </div>
+    </div>
+
+
+
+{% endblock cta %}
+
+{% block content %}
+<a name="Ver citas" class="btn btn-primary" href="#" role="button"></a>
+<a name="Agendar citass" class="btn btn-primary" href="citasMed/agendarCita.html" role="button"></a>
+{% endblock content %}

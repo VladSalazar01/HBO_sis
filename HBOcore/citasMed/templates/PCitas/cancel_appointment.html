@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block cta %}
+  <h2>Appointment Canceled</h2>
+  <p>{{ message }}</p>
+  <p><a href="{% url 'home' %}">Back to Home</a></p>
+{% endblock cta%}
